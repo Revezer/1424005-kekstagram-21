@@ -23,6 +23,8 @@ const MOCK_NAMES = [
   `Яна`
 ];
 
+const NUMBER_OF_PHOTOS = 25;
+
 function getRandomInt(min, max) {
   return Math.floor(Math.random(min) * Math.floor(max));
 }
@@ -65,24 +67,24 @@ function generatePost(i) {
 }
 
 function init() {
-  const photos = generatePhotos(25);
-  const container = document.querySelector(`.pictures`);
+  const photos = generatePhotos(NUMBER_OF_PHOTOS);
+  const picturesСontainerElement = document.querySelector(`.pictures`);
   const pictureTemplateElement = document.querySelector(`#picture`).content.querySelector(`.picture`);
   const getPictureElement = function (photo) {
     const pictureElement = pictureTemplateElement.cloneNode(true);
-    const pictureImg = pictureElement.querySelector(`.picture__img`);
+    const pictureImgElement = pictureElement.querySelector(`.picture__img`);
     const image = photo.url;
-    pictureImg.setAttribute(`src`, image);
+    pictureImgElement.setAttribute(`src`, image);
     pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
     pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
 
     return pictureElement;
   };
   const fragment = document.createDocumentFragment();
-  for (let i = 0; i < photos.length; i++) {
-    fragment.appendChild(getPictureElement(photos[i]));
-  }
-  container.appendChild(fragment);
+  photos.forEach((photo) => {
+    fragment.appendChild(getPictureElement(photo));
+  });
+  picturesСontainerElement.appendChild(fragment);
 }
 
 init();
