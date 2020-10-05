@@ -66,8 +66,10 @@ function generatePost(i) {
   return post;
 }
 
+const photos = generatePhotos(NUMBER_OF_PHOTOS);
+
 function init() {
-  const photos = generatePhotos(NUMBER_OF_PHOTOS);
+  // const photos = generatePhotos(NUMBER_OF_PHOTOS);
   const picturesСontainerElement = document.querySelector(`.pictures`);
   const pictureTemplateElement = document.querySelector(`#picture`).content.querySelector(`.picture`);
   const getPictureElement = function (photo) {
@@ -77,7 +79,6 @@ function init() {
     pictureImgElement.setAttribute(`src`, image);
     pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
     pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
-
     return pictureElement;
   };
   const fragment = document.createDocumentFragment();
@@ -88,3 +89,56 @@ function init() {
 }
 
 init();
+
+
+// больше деталей часть 2
+
+function usingComments() {
+  const commentsElement = document.querySelector(`.social__comments`);
+
+  for (let i = 0; i < photos[0].comments.length; i++) {
+    const avatar = photos[0].comments[i].avatar;
+    const commentatorName = photos[0].comments[i].name;
+    const message = photos[0].comments[i].message;
+    const templateСomments =
+    `<li class="social__comment">
+      <img
+        class="social__picture"
+        src="${avatar}"
+        alt="${commentatorName}"
+        width="35" height="35">
+      <p class="social__text">${message}</p>
+    </li>`;
+    commentsElement.insertAdjacentHTML(`beforeend`, templateСomments);
+  }
+}
+
+usingComments();
+
+function bigPictureInit() {
+  const bigPictureElement = document.querySelector(`.big-picture`);
+  bigPictureElement.classList.remove(`hidden`);
+  const bigPictureImgElement = document.querySelector(`.big-picture__img`);
+  const bigImg = bigPictureImgElement.children[0];
+  bigImg.setAttribute(`src`, photos[0].url);
+
+  const likesCountElement = document.querySelector(`.likes-count`);
+  likesCountElement.textContent = photos[0].likes;
+
+  const commentsCountElement = document.querySelector(`.comments-count`);
+  commentsCountElement.textContent = photos[0].comments.length;
+
+  const descriptionElement = document.querySelector(`.social__caption`);
+  descriptionElement.textContent = photos[0].description;
+
+  const commentCounterElement = document.querySelector(`.social__comment-count`);
+  commentCounterElement.classList.add(`hidden`);
+  const commentsLoaderElement = document.querySelector(`.comments-loader`);
+  commentsLoaderElement.classList.add(`hidden`);
+
+  const bodyElement = document.querySelector(`body`);
+  bodyElement.classList.add(`modal-open`);
+
+}
+
+bigPictureInit();
