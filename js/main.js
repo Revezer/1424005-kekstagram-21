@@ -66,8 +66,9 @@ function generatePost(i) {
   return post;
 }
 
+const photos = generatePhotos(NUMBER_OF_PHOTOS);
+
 function init() {
-  const photos = generatePhotos(NUMBER_OF_PHOTOS);
   const picturesСontainerElement = document.querySelector(`.pictures`);
   const pictureTemplateElement = document.querySelector(`#picture`).content.querySelector(`.picture`);
   const getPictureElement = function (photo) {
@@ -77,7 +78,6 @@ function init() {
     pictureImgElement.setAttribute(`src`, image);
     pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
     pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
-
     return pictureElement;
   };
   const fragment = document.createDocumentFragment();
@@ -88,3 +88,50 @@ function init() {
 }
 
 init();
+
+function showComments(photo) {
+  const commentsElement = document.querySelector(`.social__comments`);
+
+  photo.comments.forEach(function (comment) {
+    const templateСomments =
+      `<li class="social__comment">
+        <img
+          class="social__picture"
+          src="${comment.avatar}"
+          alt="${comment.name}"
+          width="35" height="35">
+        <p class="social__text">${comment.message}</p>
+      </li>`;
+    commentsElement.insertAdjacentHTML(`beforeend`, templateСomments);
+  });
+}
+
+const bodyElement = document.querySelector(`body`);
+
+function bigPictureInit(photo) {
+  const bigPictureElement = document.querySelector(`.big-picture`);
+  bigPictureElement.classList.remove(`hidden`);
+  const bigImg = bigPictureElement.querySelector(`.big-picture__img img`);
+  bigImg.setAttribute(`src`, photo.url);
+
+  const likesCountElement = bigPictureElement.querySelector(`.likes-count`);
+  likesCountElement.textContent = photo.likes;
+
+  const commentsCountElement = bigPictureElement.querySelector(`.comments-count`);
+  commentsCountElement.textContent = photo.comments.length;
+
+  const descriptionElement = bigPictureElement.querySelector(`.social__caption`);
+  descriptionElement.textContent = photo.description;
+
+  const commentCounterElement = bigPictureElement.querySelector(`.social__comment-count`);
+  commentCounterElement.classList.add(`hidden`);
+  const commentsLoaderElement = bigPictureElement.querySelector(`.comments-loader`);
+  commentsLoaderElement.classList.add(`hidden`);
+
+  bodyElement.classList.add(`modal-open`);
+
+  showComments(photo);
+
+}
+
+bigPictureInit(photos[0]);
