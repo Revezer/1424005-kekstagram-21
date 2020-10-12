@@ -136,23 +136,23 @@ function bigPictureInit(photo) {
 bigPictureInit(photos[0]);
 
 
-const modalOnload = document.querySelector(`#upload-file`);
-const modalOpen = document.querySelector(`.img-upload__overlay`);
-const modalClose = document.querySelector(`#upload-cancel`);
+const modalOnloadElement = document.querySelector(`#upload-file`);
+const modalOpenElement = document.querySelector(`.img-upload__overlay`);
+const modalCloseElement = document.querySelector(`#upload-cancel`);
 
-modalOnload.addEventListener(`click`, function () {
-  modalOpen.classList.remove(`hidden`);
+modalOnloadElement.addEventListener(`click`, function () {
+  modalOpenElement.classList.remove(`hidden`);
   bodyElement.classList.add(`modal-open`);
 });
 
-modalClose.addEventListener(`click`, function () {
-  modalOpen.classList.add(`hidden`);
+modalCloseElement.addEventListener(`click`, function () {
+  modalOpenElement.classList.add(`hidden`);
   bodyElement.classList.remove(`modal-open`);
 });
 
 document.addEventListener(`keydown`, function (evt) {
   if (evt.key === `Escape`) {
-    modalOpen.classList.add(`hidden`);
+    modalOpenElement.classList.add(`hidden`);
     bodyElement.classList.remove(`modal-open`);
   }
 });
@@ -162,24 +162,22 @@ const switchDownElement = document.querySelector(`.scale__control--smaller`);
 const switchUpElement = document.querySelector(`.scale__control--bigger`);
 const switchingValueElement = document.querySelector(`.scale__control--value`);
 const imgCsaleElement = document.querySelector(`.img-upload__preview`);
-switchingValueElement.value = `100%`;
 const MIN_VALUE = `25%`;
 const MAX_VALUE = `100%`;
-const VALUE = 25;
+const VALUE_STEP = 25;
+const MAX_SCALE = 100;
+
+switchingValueElement.value = MAX_VALUE;
 
 function scale() {
-  if (parseInt(switchingValueElement.value, 10) === 100) {
-    imgCsaleElement.style.transform = `scale(1.0)`;
-  } else {
-    imgCsaleElement.style.transform = `scale(0.${switchingValueElement.value})`;
-  }
+  imgCsaleElement.style.transform = `scale(${switchingValueElement.value / MAX_SCALE})`;
 }
 
 switchDownElement.addEventListener(`click`, function () {
   if (switchingValueElement.value === MIN_VALUE) {
     return;
   } else {
-    switchingValueElement.value = parseInt(switchingValueElement.value, 10) - VALUE;
+    switchingValueElement.value = parseInt(switchingValueElement.value, 10) - VALUE_STEP;
     scale();
     switchingValueElement.value += `%`;
   }
@@ -189,7 +187,7 @@ switchUpElement.addEventListener(`click`, function () {
   if (switchingValueElement.value === MAX_VALUE) {
     return;
   } else {
-    switchingValueElement.value = parseInt(switchingValueElement.value, 10) + VALUE;
+    switchingValueElement.value = parseInt(switchingValueElement.value, 10) + VALUE_STEP;
     scale();
     switchingValueElement.value += `%`;
   }
@@ -226,7 +224,7 @@ const filter = {
 effectNoneElement.addEventListener(`click`, function () {
   sliderElement.style = `display: none`;
   filterImgElement.style.filter = null;
-  switchingValueElement.value = `100%`;
+  switchingValueElement.value = MAX_VALUE;
 });
 
 function filterInit(effectsImg, filterImg) {
@@ -234,7 +232,7 @@ function filterInit(effectsImg, filterImg) {
     sliderElement.style.display = null;
     filterImgElement.style.filter = null;
     filterImgElement.style = filterImg;
-    switchingValueElement.value = `100%`;
+    switchingValueElement.value = MAX_VALUE;
   });
 }
 
@@ -246,14 +244,14 @@ filterInit(effectsElements.heat, filter.heat);
 
 
 const hasttagsElement = document.querySelector(`.text__hashtags`);
-const re = /^#[\w]{1,19}/;
+const FILTER_TAGS = /^#[\w]{1,19}/;
 const MAX_TAGS = 6;
 
 hasttagsElement.addEventListener(`input`, function () {
   let arrayTags = hasttagsElement.value;
   const arrayHasttags = arrayTags.split(` `);
   arrayHasttags.forEach(function (i) {
-    if (re.test(i) === false) {
+    if (FILTER_TAGS.test(i) === false) {
       hasttagsElement.setCustomValidity(`перед началом тэга поставьте #, используйте буквы и цифры`);
     } else {
       hasttagsElement.setCustomValidity(``);
