@@ -66,7 +66,14 @@ function generatePost(i) {
   return post;
 }
 
-const photos = generatePhotos(NUMBER_OF_PHOTOS);
+
+(function () {
+  const photos = generatePhotos(NUMBER_OF_PHOTOS);
+  window.data = {
+    photos
+  };
+})();
+
 
 function init() {
   const picturesСontainerElement = document.querySelector(`.pictures`);
@@ -81,7 +88,7 @@ function init() {
     return pictureElement;
   };
   const fragment = document.createDocumentFragment();
-  photos.forEach((photo) => {
+  window.data.photos.forEach((photo) => {
     fragment.appendChild(getPictureElement(photo));
   });
   picturesСontainerElement.appendChild(fragment);

@@ -4,20 +4,21 @@ const modalOnloadElement = document.querySelector(`#upload-file`);
 const modalOpenElement = document.querySelector(`.img-upload__overlay`);
 const modalCloseElement = document.querySelector(`#upload-cancel`);
 
+
 modalOnloadElement.addEventListener(`click`, function () {
   modalOpenElement.classList.remove(`hidden`);
-  bodyElement.classList.add(`modal-open`);
+  window.util.bodyElement.classList.add(`modal-open`);
 });
 
 modalCloseElement.addEventListener(`click`, function () {
   modalOpenElement.classList.add(`hidden`);
-  bodyElement.classList.remove(`modal-open`);
+  window.util.bodyElement.classList.remove(`modal-open`);
 });
 
 document.addEventListener(`keydown`, function (evt) {
   if (evt.key === `Escape`) {
     modalOpenElement.classList.add(`hidden`);
-    bodyElement.classList.remove(`modal-open`);
+    window.util.bodyElement.classList.remove(`modal-open`);
   }
 });
 

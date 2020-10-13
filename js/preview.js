@@ -17,8 +17,6 @@ function showComments(photo) {
   });
 }
 
-const bodyElement = document.querySelector(`body`);
-
 function bigPictureInit(photo) {
   const bigPictureElement = document.querySelector(`.big-picture`);
   const bigImg = bigPictureElement.querySelector(`.big-picture__img img`);
@@ -38,10 +36,10 @@ function bigPictureInit(photo) {
   const commentsLoaderElement = bigPictureElement.querySelector(`.comments-loader`);
   commentsLoaderElement.classList.add(`hidden`);
 
-  bodyElement.classList.add(`modal-open`);
+  window.util.bodyElement.classList.add(`modal-open`);
 
   showComments(photo);
 
 }
 
-bigPictureInit(photos[0]);
+bigPictureInit(window.data.photos[0]);
