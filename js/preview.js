@@ -1,8 +1,8 @@
 'use strict';
 
-function showComments(photo) {
-  const commentsElement = document.querySelector(`.social__comments`);
+const commentsElement = document.querySelector(`.social__comments`);
 
+function showComments(photo) {
   photo.comments.forEach(function (comment) {
     const templateСomments =
       `<li class="social__comment">
@@ -17,29 +17,33 @@ function showComments(photo) {
   });
 }
 
+const bigPictureElement = document.querySelector(`.big-picture`);
+const bigImg = bigPictureElement.querySelector(`.big-picture__img img`);
+const likesCountElement = bigPictureElement.querySelector(`.likes-count`);
+const commentsCountElement = bigPictureElement.querySelector(`.comments-count`);
+const descriptionElement = bigPictureElement.querySelector(`.social__caption`);
+const commentCounterElement = bigPictureElement.querySelector(`.social__comment-count`);
+const commentsLoaderElement = bigPictureElement.querySelector(`.comments-loader`);
+
 function bigPictureInit(photo) {
-  const bigPictureElement = document.querySelector(`.big-picture`);
-  const bigImg = bigPictureElement.querySelector(`.big-picture__img img`);
+
   bigImg.setAttribute(`src`, photo.url);
 
-  const likesCountElement = bigPictureElement.querySelector(`.likes-count`);
   likesCountElement.textContent = photo.likes;
 
-  const commentsCountElement = bigPictureElement.querySelector(`.comments-count`);
   commentsCountElement.textContent = photo.comments.length;
 
-  const descriptionElement = bigPictureElement.querySelector(`.social__caption`);
   descriptionElement.textContent = photo.description;
 
-  const commentCounterElement = bigPictureElement.querySelector(`.social__comment-count`);
   commentCounterElement.classList.add(`hidden`);
-  const commentsLoaderElement = bigPictureElement.querySelector(`.comments-loader`);
   commentsLoaderElement.classList.add(`hidden`);
 
-  window.util.bodyElement.classList.add(`modal-open`);
+  // window.util.bodyElement.classList.add(`modal-open`);
 
   showComments(photo);
 
 }
 
-bigPictureInit(window.data.photos[0]);
+const photos = window.data.generatePhotos(25);
+
+bigPictureInit(photos[0]);

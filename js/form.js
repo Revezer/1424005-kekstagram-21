@@ -27,35 +27,30 @@ const switchDownElement = document.querySelector(`.scale__control--smaller`);
 const switchUpElement = document.querySelector(`.scale__control--bigger`);
 const switchingValueElement = document.querySelector(`.scale__control--value`);
 const imgCsaleElement = document.querySelector(`.img-upload__preview`);
-const MIN_VALUE = `25%`;
-const MAX_VALUE = `100%`;
-const VALUE_STEP = 25;
-const MAX_SCALE = 100;
 
-switchingValueElement.value = MAX_VALUE;
+
+switchingValueElement.value = window.const.MAX_ZOOM_VALUE + `%`;
 
 function scale() {
-  imgCsaleElement.style.transform = `scale(${switchingValueElement.value / MAX_SCALE})`;
+  imgCsaleElement.style.transform = `scale(${switchingValueElement.value / window.const.MAX_ZOOM_VALUE})`;
 }
 
 switchDownElement.addEventListener(`click`, function () {
-  if (switchingValueElement.value === MIN_VALUE) {
+  if (parseInt(switchingValueElement.value, 10) <= window.const.MIN_ZOOM_VALUE) {
     return;
-  } else {
-    switchingValueElement.value = parseInt(switchingValueElement.value, 10) - VALUE_STEP;
-    scale();
-    switchingValueElement.value += `%`;
   }
+  switchingValueElement.value = parseInt(switchingValueElement.value, 10) - window.const.ZOOM_VALUE_STEP;
+  scale();
+  switchingValueElement.value += `%`;
 });
 
 switchUpElement.addEventListener(`click`, function () {
-  if (switchingValueElement.value === MAX_VALUE) {
+  if (parseInt(switchingValueElement.value, 10) >= window.const.MAX_ZOOM_VALUE) {
     return;
-  } else {
-    switchingValueElement.value = parseInt(switchingValueElement.value, 10) + VALUE_STEP;
-    scale();
-    switchingValueElement.value += `%`;
   }
+  switchingValueElement.value = parseInt(switchingValueElement.value, 10) + window.const.ZOOM_VALUE_STEP;
+  scale();
+  switchingValueElement.value += `%`;
 });
 
 
@@ -89,7 +84,7 @@ const filter = {
 effectNoneElement.addEventListener(`click`, function () {
   sliderElement.style = `display: none`;
   filterImgElement.style.filter = null;
-  switchingValueElement.value = MAX_VALUE;
+  switchingValueElement.value = window.const.MAX_ZOOM_VALUE + `%`;
 });
 
 function filterInit(effectsImg, filterImg) {
@@ -97,7 +92,7 @@ function filterInit(effectsImg, filterImg) {
     sliderElement.style.display = null;
     filterImgElement.style.filter = null;
     filterImgElement.style = filterImg;
-    switchingValueElement.value = MAX_VALUE;
+    switchingValueElement.value = window.const.MAX_ZOOM_VALUE + `%`;
   });
 }
 
@@ -109,20 +104,18 @@ filterInit(effectsElements.heat, filter.heat);
 
 
 const hasttagsElement = document.querySelector(`.text__hashtags`);
-const FILTER_TAGS = /^#[\w]{1,19}/;
-const MAX_TAGS = 6;
 
 hasttagsElement.addEventListener(`input`, function () {
   let arrayTags = hasttagsElement.value;
   const arrayHasttags = arrayTags.split(` `);
   arrayHasttags.forEach(function (i) {
-    if (FILTER_TAGS.test(i) === false) {
+    if (window.const.FILTER_TAGS.test(i) === false) {
       hasttagsElement.setCustomValidity(`перед началом тэга поставьте #, используйте буквы и цифры`);
     } else {
       hasttagsElement.setCustomValidity(``);
     }
   });
-  if (arrayHasttags.length >= MAX_TAGS) {
+  if (arrayHasttags.length >= window.const.MAX_TAGS) {
     hasttagsElement.setCustomValidity(`тэгов может быть не больше 5`);
   }
 
