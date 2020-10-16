@@ -26,6 +26,7 @@ const commentCounterElement = bigPictureElement.querySelector(`.social__comment-
 const commentsLoaderElement = bigPictureElement.querySelector(`.comments-loader`);
 
 function bigPictureInit(photo) {
+  bigPictureElement.classList.remove(`hidden`);
 
   bigImg.setAttribute(`src`, photo.url);
 
@@ -38,12 +39,34 @@ function bigPictureInit(photo) {
   commentCounterElement.classList.add(`hidden`);
   commentsLoaderElement.classList.add(`hidden`);
 
-  // window.util.bodyElement.classList.add(`modal-open`);
+  window.util.bodyElement.classList.add(`modal-open`);
 
   showComments(photo);
 
 }
 
-const photos = window.data.generatePhotos(25);
 
-bigPictureInit(photos[0]);
+const openPreviewElements = document.querySelectorAll(`.picture`);
+const closePreviewElement = document.querySelector(`.big-picture__cancel`);
+
+closePreviewElement.addEventListener(`click`, function () {
+  bigPictureElement.classList.add(`hidden`);
+  commentCounterElement.classList.remove(`hidden`);
+  commentsLoaderElement.classList.remove(`hidden`);
+  window.util.bodyElement.classList.remove(`modal-open`);
+  const deleteCommentsElement = document.querySelector(`.social__comments`);
+  deleteCommentsElement.innerHTML = ``;
+});
+
+document.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Escape`) {
+    bigPictureElement.classList.add(`hidden`);
+    window.util.bodyElement.classList.remove(`modal-open`);
+  }
+});
+
+openPreviewElements.forEach((element, i) => {
+  element.addEventListener(`click`, function () {
+    bigPictureInit(window.main.photos[i]);
+  });
+});
