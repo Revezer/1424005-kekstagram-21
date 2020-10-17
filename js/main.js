@@ -1,5 +1,14 @@
 'use strict';
 
+(function () {
+  const photos = window.data.generatePhotos(window.const.NUMBER_OF_PHOTOS);
+
+  window.main = {
+    photos
+  };
+})();
+
+
 function init() {
   const picturesСontainerElement = document.querySelector(`.pictures`);
   const pictureTemplateElement = document.querySelector(`#picture`).content.querySelector(`.picture`);
@@ -13,8 +22,7 @@ function init() {
     return pictureElement;
   };
   const fragment = document.createDocumentFragment();
-  const photos = window.data.generatePhotos(25);
-  photos.forEach((photo) => {
+  window.main.photos.forEach((photo) => {
     fragment.appendChild(getPictureElement(photo));
   });
   picturesСontainerElement.appendChild(fragment);
