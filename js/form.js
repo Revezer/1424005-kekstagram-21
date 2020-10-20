@@ -57,10 +57,7 @@ switchUpElement.addEventListener(`click`, function () {
 const effectPinElement = document.querySelector(`.effect-level__pin`);
 const filterImgElement = document.querySelector(`.img-upload__preview`);
 const sliderElement = document.querySelector(`.img-upload__effect-level`);
-
-effectPinElement.addEventListener(`mouseup`, function () {
-  filterImgElement.style.filter = null;
-});
+const effectDepthElement = document.querySelector(`.effect-level__depth`);
 
 
 const effectNoneElement = document.querySelector(`#effect-none`);
@@ -74,10 +71,10 @@ const effectsElements = {
 };
 
 const filter = {
-  chromium: `filter: grayscale(1)`,
-  sepia: `filter: sepia(1)`,
-  marvin: `filter: invert(100%)`,
-  phobos: `filter: blur(3px)`,
+  chromium: `filter: grayscale(20%)`,
+  sepia: `filter: sepia(20%)`,
+  marvin: `filter: invert(20%)`,
+  phobos: `filter: blur(4px)`,
   heat: `filter: brightness(3)`
 };
 
@@ -93,6 +90,8 @@ function filterInit(effectsImg, filterImg) {
     filterImgElement.style.filter = null;
     filterImgElement.style = filterImg;
     switchingValueElement.value = window.const.MAX_ZOOM_VALUE + `%`;
+    effectPinElement.style.left = window.const.STANDART_SLIDER_POSITION;
+    effectDepthElement.style.width = window.const.STANDART_SLIDER_POSITION;
   });
 }
 

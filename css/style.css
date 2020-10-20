@@ -573,7 +573,7 @@ main {
 .effect-level__pin {
   position: absolute;
   top: 50%;
-  left: 20%;
+  left: 90px;
   z-index: 1;
 
   width: 18px;
