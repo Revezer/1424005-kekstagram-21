@@ -74,76 +74,18 @@ openPreviewElements.forEach((element, i) => {
 const sliderPinElement = document.querySelector(`.effect-level__pin`);
 const filterValueElement = document.querySelector(`.img-upload__preview`);
 const sliderDepthElement = document.querySelector(`.effect-level__depth`);
+const chromium = {};
+const sepia = {};
+const marvin = {};
+const phobos = {};
+const heat = {};
 
-const chromium = {
-  value0: `grayscale(0%)`,
-  value10: `grayscale(10%)`,
-  value20: `grayscale(20%)`,
-  value30: `grayscale(30%)`,
-  value40: `grayscale(40%)`,
-  value50: `grayscale(50%)`,
-  value60: `grayscale(60%)`,
-  value70: `grayscale(70%)`,
-  value80: `grayscale(80%)`,
-  value90: `grayscale(90%)`,
-  value100: `grayscale(100%)`
-};
 
-const sepia = {
-  value0: `sepia(0%)`,
-  value10: `sepia(10%)`,
-  value20: `sepia(20%)`,
-  value30: `sepia(30%)`,
-  value40: `sepia(40%)`,
-  value50: `sepia(50%)`,
-  value60: `sepia(60%)`,
-  value70: `sepia(70%)`,
-  value80: `sepia(80%)`,
-  value90: `sepia(90%)`,
-  value100: `sepia(100%)`
-};
-
-const marvin = {
-  value0: `invert(0%)`,
-  value10: `invert(10%)`,
-  value20: `invert(20%)`,
-  value30: `invert(30%)`,
-  value40: `invert(40%)`,
-  value50: `invert(50%)`,
-  value60: `invert(60%)`,
-  value70: `invert(70%)`,
-  value80: `invert(80%)`,
-  value90: `invert(90%)`,
-  value100: `invert(100%)`
-};
-
-const phobos = {
-  value0: `blur(0px)`,
-  value10: `blur(2px)`,
-  value20: `blur(4px)`,
-  value30: `blur(6px)`,
-  value40: `blur(8px)`,
-  value50: `blur(10px)`,
-  value60: `blur(12px)`,
-  value70: `blur(14px)`,
-  value80: `blur(16px)`,
-  value90: `blur(18px)`,
-  value100: `blur(20px)`
-};
-
-const heat = {
-  value0: `brightness(1)`,
-  value10: `brightness(2)`,
-  value20: `brightness(3)`,
-  value30: `brightness(4)`,
-  value40: `brightness(5)`,
-  value50: `brightness(6)`,
-  value60: `brightness(7)`,
-  value70: `brightness(8)`,
-  value80: `brightness(9)`,
-  value90: `brightness(10)`,
-  value100: `brightness(11)`
-};
+window.util.filterValue(chromium, `grayscale`, window.const.STEP_FILTER_CHROMIUM_SEPIA_MARVIN, `%`);
+window.util.filterValue(sepia, `sepia`, window.const.STEP_FILTER_CHROMIUM_SEPIA_MARVIN, `%`);
+window.util.filterValue(marvin, `invert`, window.const.STEP_FILTER_CHROMIUM_SEPIA_MARVIN, `%`);
+window.util.filterValue(phobos, `blur`, window.const.STEP_FILTER_PHOBOS, `px`);
+window.util.filterValue(heat, `brightness`, window.const.STEP_FILTER_PHOBOS, ``);
 
 
 function filterСhange(filters, value) {

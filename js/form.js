@@ -71,11 +71,11 @@ const effectsElements = {
 };
 
 const filter = {
-  chromium: `filter: grayscale(20%)`,
-  sepia: `filter: sepia(20%)`,
-  marvin: `filter: invert(20%)`,
-  phobos: `filter: blur(4px)`,
-  heat: `filter: brightness(3)`
+  chromium: `filter: grayscale(${window.const.FILTER_CHROMIUM_SEPIA_MARVIN_VALUE})`,
+  sepia: `filter: sepia(${window.const.FILTER_CHROMIUM_SEPIA_MARVIN_VALUE})`,
+  marvin: `filter: invert(${window.const.FILTER_CHROMIUM_SEPIA_MARVIN_VALUE})`,
+  phobos: `filter: blur(${window.const.FILTER_PHOBOS_VALUE})`,
+  heat: `filter: brightness(${window.const.FILTER_HEAT_VALUE})`
 };
 
 effectNoneElement.addEventListener(`click`, function () {
