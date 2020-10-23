@@ -76,28 +76,7 @@ const sliderPinElement = document.querySelector(`.effect-level__pin`);
 const filterValueElement = document.querySelector(`.img-upload__preview`);
 const sliderDepthElement = document.querySelector(`.effect-level__depth`);
 const effectLevelElement = document.querySelector(`.effect-level__line`);
-const FILTER_EFFECTS = {
-  chromium: {
-    min: 0,
-    max: 100
-  },
-  sepia: {
-    min: 0,
-    max: 100
-  },
-  marvin: {
-    min: 0,
-    max: 100
-  },
-  phobos: {
-    min: 0,
-    max: 18
-  },
-  heat: {
-    min: 1,
-    max: 10
-  }
-};
+
 function filterСhange(name, filters, value, sign) {
   filterValueElement.style.filter = name + (filters.max - filters.min) * value + sign;
 }
@@ -134,19 +113,19 @@ sliderPinElement.addEventListener(`mousedown`, function (evt) {
 
     switch (filterValueElement.style.filter.replace(window.const.FILTER_LETTERS, ``)) {
       case `grayscale`:
-        filterСhange(`grayscale(`, FILTER_EFFECTS.chromium, value, `%)`);
+        filterСhange(`grayscale(`, window.const.FILTER_EFFECTS.chromium, value, `%)`);
         break;
       case `sepia`:
-        filterСhange(`sepia(`, FILTER_EFFECTS.sepia, value, `%)`);
+        filterСhange(`sepia(`, window.const.FILTER_EFFECTS.sepia, value, `%)`);
         break;
       case `invert`:
-        filterСhange(`invert(`, FILTER_EFFECTS.marvin, value, `%)`);
+        filterСhange(`invert(`, window.const.FILTER_EFFECTS.marvin, value, `%)`);
         break;
       case `blur`:
-        filterСhange(`blur(`, FILTER_EFFECTS.phobos, value, `px)`);
+        filterСhange(`blur(`, window.const.FILTER_EFFECTS.phobos, value, `px)`);
         break;
       case `brightness`:
-        filterСhange(`brightness(`, FILTER_EFFECTS.heat, value, `)`);
+        filterСhange(`brightness(`, window.const.FILTER_EFFECTS.heat, value, `)`);
     }
   };
 

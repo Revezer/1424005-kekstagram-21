@@ -33,9 +33,29 @@
   const ZOOM_VALUE_STEP = 25;
   const STANDART_SLIDER_POSITION = `90px`;
 
-  const PIT_POINT = `90px`;
   const FILTER_LETTERS = /[^grayscale|sepia|invert|blur|brightness][{(0-9px)}]+/g;
-  const FILTER_NUMBER = /\d+/;
+  const FILTER_EFFECTS = {
+    chromium: {
+      min: 0,
+      max: 100
+    },
+    sepia: {
+      min: 0,
+      max: 100
+    },
+    marvin: {
+      min: 0,
+      max: 100
+    },
+    phobos: {
+      min: 0,
+      max: 18
+    },
+    heat: {
+      min: 1,
+      max: 10
+    }
+  };
 
   const FILTER_TAGS = /^#[\w]{1,19}/;
   const MAX_TAGS = 6;
@@ -44,10 +64,6 @@
   const MIN_VALUE_SIZE = 730;
   const MAX_PIN_VALUE = `450px`;
   const MIN_PIN_VALUE = `0px`;
-
-  const STEP_FILTER_CHROMIUM_SEPIA_MARVIN = 10;
-  const STEP_FILTER_PHOBOS = 2;
-  const STEP_FILTER_HEAT = 1;
 
   window.const = {
     MOCK_DESCRTIPTIONS,
@@ -61,17 +77,13 @@
     MAX_ZOOM_VALUE,
     ZOOM_VALUE_STEP,
     STANDART_SLIDER_POSITION,
-    PIT_POINT,
     FILTER_LETTERS,
-    FILTER_NUMBER,
+    FILTER_EFFECTS,
     FILTER_TAGS,
     MAX_TAGS,
     MAX_VALUE_SIZE,
     MIN_VALUE_SIZE,
     MAX_PIN_VALUE,
-    MIN_PIN_VALUE,
-    STEP_FILTER_CHROMIUM_SEPIA_MARVIN,
-    STEP_FILTER_PHOBOS,
-    STEP_FILTER_HEAT
+    MIN_PIN_VALUE
   };
 })();
