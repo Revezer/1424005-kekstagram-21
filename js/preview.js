@@ -71,67 +71,35 @@ openPreviewElements.forEach((element, i) => {
   });
 });
 
+
 const sliderPinElement = document.querySelector(`.effect-level__pin`);
 const filterValueElement = document.querySelector(`.img-upload__preview`);
 const sliderDepthElement = document.querySelector(`.effect-level__depth`);
-const chromium = {};
-const sepia = {};
-const marvin = {};
-const phobos = {};
-const heat = {};
-
-
-window.util.filterValue(chromium, `grayscale`, window.const.STEP_FILTER_CHROMIUM_SEPIA_MARVIN, `%`);
-window.util.filterValue(sepia, `sepia`, window.const.STEP_FILTER_CHROMIUM_SEPIA_MARVIN, `%`);
-window.util.filterValue(marvin, `invert`, window.const.STEP_FILTER_CHROMIUM_SEPIA_MARVIN, `%`);
-window.util.filterValue(phobos, `blur`, window.const.STEP_FILTER_PHOBOS, `px`);
-window.util.filterValue(heat, `brightness`, window.const.STEP_FILTER_PHOBOS, ``);
-
-
-function filterСhange(filters, value) {
-  if (value <= 0) {
-    filterValueElement.style.filter = filters.value0;
+const effectLevelElement = document.querySelector(`.effect-level__line`);
+const FILTER_EFFECTS = {
+  chromium: {
+    min: 0,
+    max: 100
+  },
+  sepia: {
+    min: 0,
+    max: 100
+  },
+  marvin: {
+    min: 0,
+    max: 100
+  },
+  phobos: {
+    min: 0,
+    max: 18
+  },
+  heat: {
+    min: 1,
+    max: 10
   }
-
-  if (value > 0) {
-    filterValueElement.style.filter = filters.value10;
-  }
-
-  if (value > 50) {
-    filterValueElement.style.filter = filters.value20;
-  }
-
-  if (value > 100) {
-    filterValueElement.style.filter = filters.value30;
-  }
-
-  if (value > 150) {
-    filterValueElement.style.filter = filters.value40;
-  }
-
-  if (value > 200) {
-    filterValueElement.style.filter = filters.value50;
-  }
-
-  if (value > 250) {
-    filterValueElement.style.filter = filters.value60;
-  }
-
-  if (value > 300) {
-    filterValueElement.style.filter = filters.value70;
-  }
-
-  if (value > 350) {
-    filterValueElement.style.filter = filters.value80;
-  }
-
-  if (value > 400) {
-    filterValueElement.style.filter = filters.value90;
-  }
-
-  if (value >= 450) {
-    filterValueElement.style.filter = filters.value100;
-  }
+};
+function filterСhange(name, filters, value, sign) {
+  filterValueElement.style.filter = name + (filters.max - filters.min) * value + sign;
 }
 
 sliderPinElement.addEventListener(`mousedown`, function (evt) {
@@ -162,20 +130,23 @@ sliderPinElement.addEventListener(`mousedown`, function (evt) {
       sliderPinElement.style.left = window.const.MIN_PIN_VALUE;
     }
 
-    if (filterValueElement.style.filter.replace(window.const.FILTER_LETTERS, ``) === `grayscale`) {
-      filterСhange(chromium, sliderPinElement.style.left.match(window.const.FILTER_NUMBER));
-    }
-    if (filterValueElement.style.filter.replace(window.const.FILTER_LETTERS, ``) === `sepia`) {
-      filterСhange(sepia, sliderPinElement.style.left.match(window.const.FILTER_NUMBER));
-    }
-    if (filterValueElement.style.filter.replace(window.const.FILTER_LETTERS, ``) === `invert`) {
-      filterСhange(marvin, sliderPinElement.style.left.match(window.const.FILTER_NUMBER));
-    }
-    if (filterValueElement.style.filter.replace(window.const.FILTER_LETTERS, ``) === `blur`) {
-      filterСhange(phobos, sliderPinElement.style.left.match(window.const.FILTER_NUMBER));
-    }
-    if (filterValueElement.style.filter.replace(window.const.FILTER_LETTERS, ``) === `brightness`) {
-      filterСhange(heat, sliderPinElement.style.left.match(window.const.FILTER_NUMBER));
+    const value = sliderPinElement.offsetLeft / effectLevelElement.clientWidth;
+
+    switch (filterValueElement.style.filter.replace(window.const.FILTER_LETTERS, ``)) {
+      case `grayscale`:
+        filterСhange(`grayscale(`, FILTER_EFFECTS.chromium, value, `%)`);
+        break;
+      case `sepia`:
+        filterСhange(`sepia(`, FILTER_EFFECTS.sepia, value, `%)`);
+        break;
+      case `invert`:
+        filterСhange(`invert(`, FILTER_EFFECTS.marvin, value, `%)`);
+        break;
+      case `blur`:
+        filterСhange(`blur(`, FILTER_EFFECTS.phobos, value, `px)`);
+        break;
+      case `brightness`:
+        filterСhange(`brightness(`, FILTER_EFFECTS.heat, value, `)`);
     }
   };
 
