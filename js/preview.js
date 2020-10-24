@@ -70,3 +70,72 @@ openPreviewElements.forEach((element, i) => {
     bigPictureInit(window.main.photos[i]);
   });
 });
+
+
+const sliderPinElement = document.querySelector(`.effect-level__pin`);
+const filterValueElement = document.querySelector(`.img-upload__preview`);
+const sliderDepthElement = document.querySelector(`.effect-level__depth`);
+const effectLevelElement = document.querySelector(`.effect-level__line`);
+
+function filterСhange(name, filters, value, sign) {
+  filterValueElement.style.filter = name + (filters.max - filters.min) * value + sign;
+}
+
+sliderPinElement.addEventListener(`mousedown`, function (evt) {
+  evt.preventDefault();
+
+  let startCoords = {
+    x: evt.clientX
+  };
+
+  const onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    let shift = {
+      x: startCoords.x - moveEvt.clientX
+    };
+
+    startCoords = {
+      x: moveEvt.clientX
+    };
+
+    sliderPinElement.style.left = (sliderPinElement.offsetLeft - shift.x) + `px`;
+    sliderDepthElement.style.width = sliderPinElement.style.left;
+    if (startCoords.x > window.const.MAX_VALUE_SIZE) {
+      sliderPinElement.style.left = window.const.MAX_PIN_VALUE;
+    }
+
+    if (startCoords.x < window.const.MIN_VALUE_SIZE) {
+      sliderPinElement.style.left = window.const.MIN_PIN_VALUE;
+    }
+
+    const value = sliderPinElement.offsetLeft / effectLevelElement.clientWidth;
+
+    switch (filterValueElement.style.filter.replace(window.const.FILTER_LETTERS, ``)) {
+      case `grayscale`:
+        filterСhange(`grayscale(`, window.const.FILTER_EFFECTS.chromium, value, `%)`);
+        break;
+      case `sepia`:
+        filterСhange(`sepia(`, window.const.FILTER_EFFECTS.sepia, value, `%)`);
+        break;
+      case `invert`:
+        filterСhange(`invert(`, window.const.FILTER_EFFECTS.marvin, value, `%)`);
+        break;
+      case `blur`:
+        filterСhange(`blur(`, window.const.FILTER_EFFECTS.phobos, value, `px)`);
+        break;
+      case `brightness`:
+        filterСhange(`brightness(`, window.const.FILTER_EFFECTS.heat, value, `)`);
+    }
+  };
+
+
+  const onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener(`mousemove`, onMouseMove);
+    document.removeEventListener(`mouseup`, onMouseUp);
+  };
+  document.addEventListener(`mousemove`, onMouseMove);
+  document.addEventListener(`mouseup`, onMouseUp);
+});
