@@ -1,13 +1,5 @@
 'use strict';
 
-(function () {
-  const photos = window.data.generatePhotos(window.const.NUMBER_OF_PHOTOS);
-
-  window.main = {
-    photos
-  };
-})();
-
 
 function init() {
   const picturesСontainerElement = document.querySelector(`.pictures`);
