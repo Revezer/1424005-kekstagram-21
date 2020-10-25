@@ -46,7 +46,6 @@ function bigPictureInit(photo) {
 }
 
 
-const openPreviewElements = document.querySelectorAll(`.picture`);
 const closePreviewElement = document.querySelector(`.big-picture__cancel`);
 
 closePreviewElement.addEventListener(`click`, function () {
@@ -64,12 +63,17 @@ document.addEventListener(`keydown`, function (evt) {
     window.util.bodyElement.classList.remove(`modal-open`);
   }
 });
+window.setListener = function () {
+  const openPreviewElements = document.querySelectorAll(`.picture`);
 
-openPreviewElements.forEach((element, i) => {
-  element.addEventListener(`click`, function () {
-    bigPictureInit(window.main.photos[i]);
+  openPreviewElements.forEach((element, i) => {
+    element.addEventListener(`click`, function () {
+      window.download(function (photos) {
+        bigPictureInit(photos[i]);
+      }, function () { });
+    });
   });
-});
+};
 
 
 const sliderPinElement = document.querySelector(`.effect-level__pin`);

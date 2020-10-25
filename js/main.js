@@ -21,11 +21,14 @@ function init() {
     pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
     return pictureElement;
   };
-  const fragment = document.createDocumentFragment();
-  window.main.photos.forEach((photo) => {
-    fragment.appendChild(getPictureElement(photo));
-  });
-  picturesСontainerElement.appendChild(fragment);
+  window.download(function (photos) {
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < photos.length; i++) {
+      fragment.appendChild(getPictureElement(photos[i]));
+    }
+    picturesСontainerElement.appendChild(fragment);
+    window.setListener();
+  }, function () {});
 }
 
 init();
