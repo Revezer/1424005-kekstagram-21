@@ -120,3 +120,13 @@ hasttagsElement.addEventListener(`input`, function () {
 
   hasttagsElement.reportValidity();
 });
+
+
+const formElement = document.querySelector(`.img-upload__form`);
+
+formElement.addEventListener(`submit`, function (evt) {
+  window.backend.uploadPhoto(new FormData(formElement), function () {
+    modalOpenElement.classList.add(`hidden`);
+  }, function () {});
+  evt.preventDefault();
+});

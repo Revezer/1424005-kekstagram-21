@@ -1,13 +1,5 @@
 'use strict';
 
-(function () {
-  const photos = window.data.generatePhotos(window.const.NUMBER_OF_PHOTOS);
-
-  window.main = {
-    photos
-  };
-})();
-
 
 function init() {
   const picturesСontainerElement = document.querySelector(`.pictures`);
@@ -21,11 +13,14 @@ function init() {
     pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
     return pictureElement;
   };
-  const fragment = document.createDocumentFragment();
-  window.main.photos.forEach((photo) => {
-    fragment.appendChild(getPictureElement(photo));
-  });
-  picturesСontainerElement.appendChild(fragment);
+  window.backend.loadPhotos(function (photos) {
+    const fragment = document.createDocumentFragment();
+    photos.forEach((photo) => {
+      fragment.appendChild(getPictureElement(photo));
+    });
+    picturesСontainerElement.appendChild(fragment);
+    window.setListener();
+  }, function () {});
 }
 
 init();
