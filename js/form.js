@@ -125,8 +125,8 @@ hasttagsElement.addEventListener(`input`, function () {
 const formElement = document.querySelector(`.img-upload__form`);
 
 formElement.addEventListener(`submit`, function (evt) {
-  window.upload(new FormData(formElement), function () {
+  window.backend.uploadPhoto(new FormData(formElement), function () {
     modalOpenElement.classList.add(`hidden`);
-  });
+  }, function () {});
   evt.preventDefault();
 });

@@ -68,7 +68,7 @@ window.setListener = function () {
 
   openPreviewElements.forEach((element, i) => {
     element.addEventListener(`click`, function () {
-      window.download(function (photos) {
+      window.backend.loadPhotos(function (photos) {
         bigPictureInit(photos[i]);
       }, function () { });
     });

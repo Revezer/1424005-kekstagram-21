@@ -13,11 +13,11 @@ function init() {
     pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
     return pictureElement;
   };
-  window.download(function (photos) {
+  window.backend.loadPhotos(function (photos) {
     const fragment = document.createDocumentFragment();
-    for (let i = 0; i < photos.length; i++) {
-      fragment.appendChild(getPictureElement(photos[i]));
-    }
+    photos.forEach((photo) => {
+      fragment.appendChild(getPictureElement(photo));
+    });
     picturesСontainerElement.appendChild(fragment);
     window.setListener();
   }, function () {});
