@@ -117,10 +117,10 @@ sliderPinElement.addEventListener(`mousedown`, function (evt) {
 
     switch (filterValueElement.style.filter.replace(window.const.FILTER_LETTERS, ``)) {
       case `grayscale`:
-        filterСhange(`grayscale(`, window.const.FILTER_EFFECTS.chromium, value, `%)`);
+        filterСhange(`grayscale(`, window.const.FILTER_EFFECTS.chromium, value, `)`);
         break;
       case `sepia`:
-        filterСhange(`sepia(`, window.const.FILTER_EFFECTS.sepia, value, `%)`);
+        filterСhange(`sepia(`, window.const.FILTER_EFFECTS.sepia, value, `)`);
         break;
       case `invert`:
         filterСhange(`invert(`, window.const.FILTER_EFFECTS.marvin, value, `%)`);

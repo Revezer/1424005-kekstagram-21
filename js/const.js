@@ -11,16 +11,17 @@
   const MAX_ZOOM_VALUE = 100;
   const ZOOM_VALUE_STEP = 25;
   const STANDART_SLIDER_POSITION = `90px`;
+  const STANDART_SCALE_IMG = 1;
 
   const FILTER_LETTERS = /[^grayscale|sepia|invert|blur|brightness][{(0-9px)}]+/g;
   const FILTER_EFFECTS = {
     chromium: {
       min: 0,
-      max: 100
+      max: 1
     },
     sepia: {
       min: 0,
-      max: 100
+      max: 1
     },
     marvin: {
       min: 0,
@@ -28,11 +29,11 @@
     },
     phobos: {
       min: 0,
-      max: 18
+      max: 3
     },
     heat: {
       min: 1,
-      max: 10
+      max: 3
     }
   };
 
@@ -53,6 +54,7 @@
     MAX_ZOOM_VALUE,
     ZOOM_VALUE_STEP,
     STANDART_SLIDER_POSITION,
+    STANDART_SCALE_IMG,
     FILTER_LETTERS,
     FILTER_EFFECTS,
     FILTER_TAGS,

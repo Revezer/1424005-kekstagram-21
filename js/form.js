@@ -4,21 +4,30 @@ const modalOnloadElement = document.querySelector(`#upload-file`);
 const modalOpenElement = document.querySelector(`.img-upload__overlay`);
 const modalCloseElement = document.querySelector(`#upload-cancel`);
 
+function resetForm() {
+  modalOpenElement.classList.add(`hidden`);
+  filterImgElement.style.filter = null;
+  effectPinElement.style.left = window.const.STANDART_SLIDER_POSITION;
+  effectDepthElement.style.width = window.const.STANDART_SLIDER_POSITION;
+  hasttagsElement.value = ``;
+  textDescriptionElement.value = ``;
+  window.util.bodyElement.classList.remove(`modal-open`);
+}
 
 modalOnloadElement.addEventListener(`click`, function () {
   modalOpenElement.classList.remove(`hidden`);
   window.util.bodyElement.classList.add(`modal-open`);
+  switchingValueElement.value = window.const.MAX_ZOOM_VALUE + `%`;
+  imgCsaleElement.style.transform = `scale(` + window.const.STANDART_SCALE_IMG + `)`;
 });
 
 modalCloseElement.addEventListener(`click`, function () {
-  modalOpenElement.classList.add(`hidden`);
-  window.util.bodyElement.classList.remove(`modal-open`);
+  resetForm();
 });
 
 document.addEventListener(`keydown`, function (evt) {
   if (evt.key === `Escape`) {
-    modalOpenElement.classList.add(`hidden`);
-    window.util.bodyElement.classList.remove(`modal-open`);
+    resetForm();
   }
 });
 
@@ -103,6 +112,7 @@ filterInit(effectsElements.heat, filter.heat);
 
 
 const hasttagsElement = document.querySelector(`.text__hashtags`);
+const textDescriptionElement = document.querySelector(`.text__description`);
 
 hasttagsElement.addEventListener(`input`, function () {
   let arrayTags = hasttagsElement.value;
@@ -124,9 +134,54 @@ hasttagsElement.addEventListener(`input`, function () {
 
 const formElement = document.querySelector(`.img-upload__form`);
 
+const outputStatusContainerElement = document.querySelector(`main`);
+const errorTemplateElement = document.querySelector(`#error`).content.querySelector(`.error`);
+const successTemplateElement = document.querySelector(`#success`).content.querySelector(`.success`);
+
+function outputStatusError() {
+  const errorTemplate = errorTemplateElement.cloneNode(true);
+  outputStatusContainerElement.appendChild(errorTemplate);
+}
+
+function outputStatusSuccess() {
+  const successTemplate = successTemplateElement.cloneNode(true);
+  outputStatusContainerElement.appendChild(successTemplate);
+}
+
+outputStatusSuccess();
+outputStatusError();
+
+const successPopupElement = document.querySelector(`.success`);
+const errorPopupElement = document.querySelector(`.error`);
+
+document.addEventListener(`click`, function () {
+  successPopupElement.classList.add(`hidden`);
+});
+
+document.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Escape`) {
+    successPopupElement.classList.add(`hidden`);
+  }
+});
+
+document.addEventListener(`click`, function () {
+  errorPopupElement.classList.add(`hidden`);
+});
+
+document.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Escape`) {
+    errorPopupElement.classList.add(`hidden`);
+  }
+});
+
+
 formElement.addEventListener(`submit`, function (evt) {
   window.backend.uploadPhoto(new FormData(formElement), function () {
-    modalOpenElement.classList.add(`hidden`);
-  }, function () {});
+    successPopupElement.classList.remove(`hidden`);
+    resetForm();
+  }, function () {
+    errorPopupElement.classList.remove(`hidden`);
+    resetForm();
+  });
   evt.preventDefault();
 });
