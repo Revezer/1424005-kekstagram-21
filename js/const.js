@@ -53,6 +53,7 @@
   const FILTER_DEFAULT = 1;
   const FILTER_RANDOM = 2;
   const FILTER_COMMENTS = 3;
+  const DEBOUNCE_INTERVAL = 500;
 
   window.const = {
     NUMBER_OF_PHOTOS,
@@ -78,6 +79,7 @@
     RANDOM_PICTURE_LENGTH,
     FILTER_DEFAULT,
     FILTER_RANDOM,
-    FILTER_COMMENTS
+    FILTER_COMMENTS,
+    DEBOUNCE_INTERVAL
   };
 })();

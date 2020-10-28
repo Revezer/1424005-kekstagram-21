@@ -53,21 +53,29 @@ init(window.const.FILTER_DEFAULT);
 const filterDefaultElement = document.querySelector(`#filter-default`);
 const buttonRandomElement = document.querySelector(`#filter-random`);
 const filterCommentsElement = document.querySelector(`#filter-discussed`);
+let lastTimeout;
+
+function debounce(filter) {
+  if (lastTimeout) {
+    window.clearTimeout(lastTimeout);
+  }
+  lastTimeout = window.setTimeout(function () {
+    window.util.resetGallery();
+    init(filter);
+  }, window.const.DEBOUNCE_INTERVAL);
+}
 
 filterDefaultElement.addEventListener(`click`, function () {
-  window.util.resetGallery();
   window.util.activeButton(window.const.FILTER_DEFAULT_BUTTON);
-  init(window.const.FILTER_DEFAULT);
+  debounce(window.const.FILTER_DEFAULT);
 });
 
 buttonRandomElement.addEventListener(`click`, function () {
-  window.util.resetGallery();
   window.util.activeButton(window.const.FILTER_RANDOM_BUTTON);
-  init(window.const.FILTER_RANDOM);
+  debounce(window.const.FILTER_RANDOM);
 });
 
 filterCommentsElement.addEventListener(`click`, function () {
-  window.util.resetGallery();
   window.util.activeButton(window.const.FILTER_COMMENTS_BUTTON);
-  init(window.const.FILTER_COMMENTS);
+  debounce(window.const.FILTER_COMMENTS);
 });
