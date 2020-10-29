@@ -45,6 +45,16 @@
   const MAX_PIN_VALUE = `450px`;
   const MIN_PIN_VALUE = `0px`;
 
+  const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
+  const FILTER_DEFAULT_BUTTON = filtersButtonsElement[0];
+  const FILTER_RANDOM_BUTTON = filtersButtonsElement[1];
+  const FILTER_COMMENTS_BUTTON = filtersButtonsElement[2];
+  const RANDOM_PICTURE_LENGTH = 10;
+  const FILTER_DEFAULT = 1;
+  const FILTER_RANDOM = 2;
+  const FILTER_COMMENTS = 3;
+  const DEBOUNCE_INTERVAL = 500;
+
   window.const = {
     NUMBER_OF_PHOTOS,
     FILTER_CHROMIUM_SEPIA_MARVIN_VALUE,
@@ -62,6 +72,14 @@
     MAX_VALUE_SIZE,
     MIN_VALUE_SIZE,
     MAX_PIN_VALUE,
-    MIN_PIN_VALUE
+    MIN_PIN_VALUE,
+    FILTER_DEFAULT_BUTTON,
+    FILTER_RANDOM_BUTTON,
+    FILTER_COMMENTS_BUTTON,
+    RANDOM_PICTURE_LENGTH,
+    FILTER_DEFAULT,
+    FILTER_RANDOM,
+    FILTER_COMMENTS,
+    DEBOUNCE_INTERVAL
   };
 })();
