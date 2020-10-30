@@ -47,6 +47,7 @@
 
   const ARRAY_SIZE = 5;
   const NUMBER_COMMENTS = 0;
+  const STEP_COMMENT = 1;
 
   const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
   const FILTER_DEFAULT_BUTTON = filtersButtonsElement[0];
@@ -78,6 +79,7 @@
     MIN_PIN_VALUE,
     ARRAY_SIZE,
     NUMBER_COMMENTS,
+    STEP_COMMENT,
     FILTER_DEFAULT_BUTTON,
     FILTER_RANDOM_BUTTON,
     FILTER_COMMENTS_BUTTON,

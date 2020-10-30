@@ -156,7 +156,7 @@ const commentLoaderElement = document.querySelector(`.social__comments-loader`);
 commentLoaderElement.addEventListener(`click`, function () {
 
   if (arrayСounter < sliderArray.length) {
-    arrayСounter += 1;
+    arrayСounter += window.const.STEP_COMMENT;
   }
 
   sliderArray[arrayСounter].forEach(function (comment) {
