@@ -2,7 +2,7 @@
 
 const commentsElement = document.querySelector(`.social__comments`);
 const showingCommentsElement = document.querySelector(`.comments-showing`);
-let arrayСounter = 0;
+let arrayСounter = window.const.NUMBER_COMMENTS;
 let sliderArray = [];
 
 function showComments(photo) {
@@ -46,7 +46,7 @@ function bigPictureInit(photo) {
 
   showingCommentsElement.textContent = commentsElement.children.length;
 
-  arrayСounter = 0;
+  arrayСounter = window.const.NUMBER_COMMENTS;
 }
 
 
