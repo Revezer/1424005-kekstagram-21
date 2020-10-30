@@ -45,6 +45,9 @@
   const MAX_PIN_VALUE = `450px`;
   const MIN_PIN_VALUE = `0px`;
 
+  const ARRAY_SIZE = 5;
+  const NUMBER_COMMENTS = 0;
+
   const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
   const FILTER_DEFAULT_BUTTON = filtersButtonsElement[0];
   const FILTER_RANDOM_BUTTON = filtersButtonsElement[1];
@@ -73,6 +76,8 @@
     MIN_VALUE_SIZE,
     MAX_PIN_VALUE,
     MIN_PIN_VALUE,
+    ARRAY_SIZE,
+    NUMBER_COMMENTS,
     FILTER_DEFAULT_BUTTON,
     FILTER_RANDOM_BUTTON,
     FILTER_COMMENTS_BUTTON,
