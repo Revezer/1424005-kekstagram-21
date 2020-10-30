@@ -44,6 +44,9 @@ function bigPictureInit(photo) {
 
   showComments(photo);
 
+  showingCommentsElement.textContent = commentsElement.children.length;
+
+  arrayСounter = 0;
 }
 
 
@@ -55,8 +58,6 @@ closePreviewElement.addEventListener(`click`, function () {
   window.util.bodyElement.classList.remove(`modal-open`);
   deleteCommentsElement.innerHTML = ``;
   sliderArray = [];
-  arrayСounter = 0;
-  showingCommentsElement.textContent = window.const.ARRAY_SIZE;
   commentLoaderElement.classList.remove(`hidden`);
 });
 
@@ -66,8 +67,6 @@ document.addEventListener(`keydown`, function (evt) {
     window.util.bodyElement.classList.remove(`modal-open`);
     deleteCommentsElement.innerHTML = ``;
     sliderArray = [];
-    arrayСounter = 0;
-    showingCommentsElement.textContent = window.const.ARRAY_SIZE;
     commentLoaderElement.classList.remove(`hidden`);
   }
 });
