@@ -2,14 +2,13 @@
 
 const commentsElement = document.querySelector(`.social__comments`);
 const showingCommentsElement = document.querySelector(`.comments-showing`);
-let arrayСounter = window.const.NUMBER_COMMENTS;
-let sliderArray = [];
+const commentLoaderElement = document.querySelector(`.social__comments-loader`);
+let displayCount = window.const.COMMENTS_PER_PAGE;
+let photosComments = [];
 
-function showComments(photo) {
-  for (let i = 0; i < photo.comments.length; i += window.const.ARRAY_SIZE) {
-    sliderArray.push(photo.comments.slice(i, i + window.const.ARRAY_SIZE));
-  }
-  sliderArray[window.const.NUMBER_COMMENTS].forEach(function (comment) {
+function showComments(photo, commentCount) {
+  const commentsToDisplay = photo.comments.slice(0, commentCount);
+  commentsToDisplay.forEach(function (comment) {
     const templateСomments =
       `<li class="social__comment">
         <img
@@ -22,6 +21,7 @@ function showComments(photo) {
     commentsElement.insertAdjacentHTML(`beforeend`, templateСomments);
   });
 }
+
 
 const bigPictureElement = document.querySelector(`.big-picture`);
 const bigImg = bigPictureElement.querySelector(`.big-picture__img img`);
@@ -42,11 +42,9 @@ function bigPictureInit(photo) {
 
   window.util.bodyElement.classList.add(`modal-open`);
 
-  showComments(photo);
+  showComments(photo, displayCount);
 
   showingCommentsElement.textContent = commentsElement.children.length;
-
-  arrayСounter = window.const.NUMBER_COMMENTS;
 }
 
 
@@ -56,8 +54,8 @@ const deleteCommentsElement = document.querySelector(`.social__comments`);
 closePreviewElement.addEventListener(`click`, function () {
   bigPictureElement.classList.add(`hidden`);
   window.util.bodyElement.classList.remove(`modal-open`);
-  deleteCommentsElement.innerHTML = ``;
-  sliderArray = [];
+  deleteCommentsElement.innerText = ``;
+  displayCount = window.const.COMMENTS_PER_PAGE;
   commentLoaderElement.classList.remove(`hidden`);
 });
 
@@ -65,19 +63,18 @@ document.addEventListener(`keydown`, function (evt) {
   if (evt.key === `Escape`) {
     bigPictureElement.classList.add(`hidden`);
     window.util.bodyElement.classList.remove(`modal-open`);
-    deleteCommentsElement.innerHTML = ``;
-    sliderArray = [];
+    deleteCommentsElement.innerText = ``;
+    displayCount = window.const.COMMENTS_PER_PAGE;
     commentLoaderElement.classList.remove(`hidden`);
   }
 });
-window.setListener = function () {
+window.setListener = function (photos) {
   const openPreviewElements = document.querySelectorAll(`.picture`);
 
   openPreviewElements.forEach((element, i) => {
     element.addEventListener(`click`, function () {
-      window.backend.loadPhotos(function (photos) {
-        bigPictureInit(photos[i]);
-      }, function () { });
+      bigPictureInit(photos[i]);
+      photosComments = photos[i];
     });
   });
 };
@@ -113,11 +110,11 @@ sliderPinElement.addEventListener(`mousedown`, function (evt) {
     sliderPinElement.style.left = (sliderPinElement.offsetLeft - shift.x) + `px`;
     sliderDepthElement.style.width = sliderPinElement.style.left;
     if (startCoords.x > window.const.MAX_VALUE_SIZE) {
-      sliderPinElement.style.left = window.const.MAX_PIN_VALUE;
+      sliderPinElement.style.left = window.const.MAX_PIN_VALUE + `px`;
     }
 
     if (startCoords.x < window.const.MIN_VALUE_SIZE) {
-      sliderPinElement.style.left = window.const.MIN_PIN_VALUE;
+      sliderPinElement.style.left = window.const.MIN_PIN_VALUE + `px`;
     }
 
     const value = sliderPinElement.offsetLeft / effectLevelElement.clientWidth;
@@ -151,30 +148,13 @@ sliderPinElement.addEventListener(`mousedown`, function (evt) {
   document.addEventListener(`mouseup`, onMouseUp);
 });
 
-const commentLoaderElement = document.querySelector(`.social__comments-loader`);
 
 commentLoaderElement.addEventListener(`click`, function () {
-
-  if (arrayСounter < sliderArray.length) {
-    arrayСounter += window.const.STEP_COMMENT;
+  displayCount += window.const.COMMENTS_PER_PAGE;
+  if (displayCount > photosComments.lenght) {
+    displayCount = photosComments.lenght;
   }
-
-  sliderArray[arrayСounter].forEach(function (comment) {
-    const templateСomments =
-      `<li class="social__comment">
-        <img
-          class="social__picture"
-          src="${comment.avatar}"
-          alt="${comment.name}"
-          width="35" height="35">
-        <p class="social__text">${comment.message}</p>
-      </li>`;
-    commentsElement.insertAdjacentHTML(`beforeend`, templateСomments);
-  });
-
+  deleteCommentsElement.innerText = ``;
+  showComments(photosComments, displayCount);
   showingCommentsElement.textContent = commentsElement.children.length;
-
-  if (commentsElement.children.length >= commentsCountElement.textContent) {
-    commentLoaderElement.classList.add(`hidden`);
-  }
 });

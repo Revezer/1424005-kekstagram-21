@@ -21,7 +21,7 @@ function init(comparison) {
           fragment.appendChild(getPictureElement(photo));
         });
         picturesСontainerElement.appendChild(fragment);
-        window.setListener();
+        window.setListener(photos);
       }, function () {});
       break;
     case window.const.FILTER_RANDOM:
@@ -32,7 +32,7 @@ function init(comparison) {
           fragment.appendChild(getPictureElement(photo));
         });
         picturesСontainerElement.appendChild(fragment);
-        window.setListener();
+        window.setListener(randomList);
       }, function () {});
       break;
     case window.const.FILTER_COMMENTS:
@@ -43,7 +43,7 @@ function init(comparison) {
           fragment.appendChild(getPictureElement(photo));
         });
         picturesСontainerElement.appendChild(fragment);
-        window.setListener();
+        window.setListener(commentsList);
       }, function () {});
   }
 }
