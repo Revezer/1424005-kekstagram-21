@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+
   const bodyElement = document.querySelector(`body`);
   const picturesListElement = document.querySelector(`.pictures`);
   const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
@@ -49,4 +49,3 @@
     getRandomPicture,
     sortByCommentsPicture
   };
-})();

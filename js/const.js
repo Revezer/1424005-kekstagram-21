@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+
   const NUMBER_OF_PHOTOS = 25;
 
   const FILTER_CHROMIUM_SEPIA_MARVIN_VALUE = `20%`;
@@ -85,4 +85,3 @@
     FILTER_COMMENTS,
     DEBOUNCE_INTERVAL
   };
-})();
