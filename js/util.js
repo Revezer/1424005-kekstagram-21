@@ -1,52 +1,51 @@
 'use strict';
 
-(function () {
-  const bodyElement = document.querySelector(`body`);
-  const picturesListElement = document.querySelector(`.pictures`);
-  const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
 
-  function getRandomInt(min, max) {
-    return Math.round(Math.random() * (max - min)) + min;
-  }
+const bodyElement = document.querySelector(`body`);
+const picturesListElement = document.querySelector(`.pictures`);
+const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
 
-  function getRandomElementFromArray(arr) {
-    return arr[getRandomInt(1, arr.length)];
-  }
+function getRandomInt(min, max) {
+  return Math.round(Math.random() * (max - min)) + min;
+}
 
-  function resetGallery() {
-    while (picturesListElement.children.length > 2) {
-      picturesListElement.removeChild(picturesListElement.lastChild);
-    }
-  }
+function getRandomElementFromArray(arr) {
+  return arr[getRandomInt(1, arr.length)];
+}
 
-  function activeButton(button) {
-    Array.from(filtersButtonsElement).forEach(function (element) {
-      element.classList.remove(`img-filters__button--active`);
-    });
-    button.classList.add(`img-filters__button--active`);
+function resetGallery() {
+  while (picturesListElement.children.length > 2) {
+    picturesListElement.removeChild(picturesListElement.lastChild);
   }
+}
 
-  function getRandomPicture(pictureObjects) {
-    let randomPictureObjects = [];
-    let pictureObjectsCopy = pictureObjects.slice();
-    for (let i = 0; i < window.const.RANDOM_PICTURE_LENGTH; i++) {
-      let randomIndex = window.util.getRandomInt(0, pictureObjectsCopy.length - 1);
-      randomPictureObjects.push(pictureObjectsCopy[randomIndex]);
-      pictureObjectsCopy.splice(randomIndex, 1);
-    }
-    return randomPictureObjects;
-  }
-  function sortByCommentsPicture(pictureObjects) {
-    return pictureObjects.slice().sort((left, right) => right.comments.length - left.comments.length);
-  }
+function activeButton(button) {
+  Array.from(filtersButtonsElement).forEach(function (element) {
+    element.classList.remove(`img-filters__button--active`);
+  });
+  button.classList.add(`img-filters__button--active`);
+}
 
-  window.util = {
-    bodyElement,
-    getRandomInt,
-    getRandomElementFromArray,
-    resetGallery,
-    activeButton,
-    getRandomPicture,
-    sortByCommentsPicture
-  };
-})();
+function getRandomPicture(pictureObjects) {
+  let randomPictureObjects = [];
+  let pictureObjectsCopy = pictureObjects.slice();
+  for (let i = 0; i < window.const.RANDOM_PICTURE_LENGTH; i++) {
+    let randomIndex = window.util.getRandomInt(0, pictureObjectsCopy.length - 1);
+    randomPictureObjects.push(pictureObjectsCopy[randomIndex]);
+    pictureObjectsCopy.splice(randomIndex, 1);
+  }
+  return randomPictureObjects;
+}
+function sortByCommentsPicture(pictureObjects) {
+  return pictureObjects.slice().sort((left, right) => right.comments.length - left.comments.length);
+}
+
+window.util = {
+  bodyElement,
+  getRandomInt,
+  getRandomElementFromArray,
+  resetGallery,
+  activeButton,
+  getRandomPicture,
+  sortByCommentsPicture
+};

@@ -1,50 +1,50 @@
 'use strict';
-(function () {
-  const TIMEOUT_IN_MS = 10000;
-  const StatusCode = {
-    OK: 200
-  };
 
-  const handleRequest = (onSuccess, onError, xhr) => {
-    xhr.responseType = `json`;
 
-    xhr.addEventListener(`load`, function () {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-      } else {
-        onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
-      }
-    });
-    xhr.addEventListener(`error`, function () {
-      onError(`Произошла ошибка соединения`);
-    });
-    xhr.addEventListener(`timeout`, function () {
-      onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
-    });
+const TIMEOUT_IN_MS = 10000;
+const StatusCode = {
+  OK: 200
+};
 
-    xhr.timeout = TIMEOUT_IN_MS;
-  };
+const handleRequest = (onSuccess, onError, xhr) => {
+  xhr.responseType = `json`;
 
-  const loadPhotos = (successHandler, errorHandler) => {
-    const URL = `https://21.javascript.pages.academy/kekstagram/data`;
-    const xhr = new XMLHttpRequest();
-    handleRequest(successHandler, errorHandler, xhr);
+  xhr.addEventListener(`load`, function () {
+    if (xhr.status === StatusCode.OK) {
+      onSuccess(xhr.response);
+    } else {
+      onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
+    }
+  });
+  xhr.addEventListener(`error`, function () {
+    onError(`Произошла ошибка соединения`);
+  });
+  xhr.addEventListener(`timeout`, function () {
+    onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
+  });
 
-    xhr.open(`GET`, URL);
-    xhr.send();
-  };
+  xhr.timeout = TIMEOUT_IN_MS;
+};
 
-  const uploadPhoto = (data, successHandler, errorHandler) => {
-    const URL = `https://21.javascript.pages.academy/kekstagram`;
-    const xhr = new XMLHttpRequest();
-    handleRequest(successHandler, errorHandler, xhr);
+const loadPhotos = (successHandler, errorHandler) => {
+  const URL = `https://21.javascript.pages.academy/kekstagram/data`;
+  const xhr = new XMLHttpRequest();
+  handleRequest(successHandler, errorHandler, xhr);
 
-    xhr.open(`POST`, URL);
-    xhr.send(data);
-  };
+  xhr.open(`GET`, URL);
+  xhr.send();
+};
 
-  window.backend = {
-    loadPhotos,
-    uploadPhoto
-  };
-})();
+const uploadPhoto = (data, successHandler, errorHandler) => {
+  const URL = `https://21.javascript.pages.academy/kekstagram`;
+  const xhr = new XMLHttpRequest();
+  handleRequest(successHandler, errorHandler, xhr);
+
+  xhr.open(`POST`, URL);
+  xhr.send(data);
+};
+
+window.backend = {
+  loadPhotos,
+  uploadPhoto
+};
