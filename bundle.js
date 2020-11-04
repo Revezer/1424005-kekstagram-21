@@ -8,91 +8,90 @@
 /*! runtime requirements:  */
 
 
+const NUMBER_OF_PHOTOS = 25;
 
-  const NUMBER_OF_PHOTOS = 25;
+const FILTER_CHROMIUM_SEPIA_MARVIN_VALUE = `20%`;
+const FILTER_PHOBOS_VALUE = `4px`;
+const FILTER_HEAT_VALUE = 3;
 
-  const FILTER_CHROMIUM_SEPIA_MARVIN_VALUE = `20%`;
-  const FILTER_PHOBOS_VALUE = `4px`;
-  const FILTER_HEAT_VALUE = 3;
+const MIN_ZOOM_VALUE = 25;
+const MAX_ZOOM_VALUE = 100;
+const ZOOM_VALUE_STEP = 25;
+const STANDART_SLIDER_POSITION = `90px`;
+const STANDART_SCALE_IMG = 1;
 
-  const MIN_ZOOM_VALUE = 25;
-  const MAX_ZOOM_VALUE = 100;
-  const ZOOM_VALUE_STEP = 25;
-  const STANDART_SLIDER_POSITION = `90px`;
-  const STANDART_SCALE_IMG = 1;
+const FILTER_LETTERS = /[^grayscale|sepia|invert|blur|brightness][{(0-9px)}]+/g;
+const FILTER_EFFECTS = {
+  chromium: {
+    min: 0,
+    max: 1
+  },
+  sepia: {
+    min: 0,
+    max: 1
+  },
+  marvin: {
+    min: 0,
+    max: 100
+  },
+  phobos: {
+    min: 0,
+    max: 3
+  },
+  heat: {
+    min: 1,
+    max: 3
+  }
+};
 
-  const FILTER_LETTERS = /[^grayscale|sepia|invert|blur|brightness][{(0-9px)}]+/g;
-  const FILTER_EFFECTS = {
-    chromium: {
-      min: 0,
-      max: 1
-    },
-    sepia: {
-      min: 0,
-      max: 1
-    },
-    marvin: {
-      min: 0,
-      max: 100
-    },
-    phobos: {
-      min: 0,
-      max: 3
-    },
-    heat: {
-      min: 1,
-      max: 3
-    }
-  };
+const FILTER_TAGS = /^#[\w]{1,19}/;
+const MAX_TAGS = 6;
 
-  const FILTER_TAGS = /^#[\w]{1,19}/;
-  const MAX_TAGS = 6;
+const MAX_VALUE_SIZE = 1180;
+const MIN_VALUE_SIZE = 730;
+const MAX_PIN_VALUE = 450;
+const MIN_PIN_VALUE = 0;
 
-  const MAX_VALUE_SIZE = 1180;
-  const MIN_VALUE_SIZE = 730;
-  const MAX_PIN_VALUE = 450;
-  const MIN_PIN_VALUE = 0;
+const COMMENTS_PER_PAGE = 5;
 
-  const COMMENTS_PER_PAGE = 5;
+const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
+const FILTER_DEFAULT_BUTTON = filtersButtonsElement[0];
+const FILTER_RANDOM_BUTTON = filtersButtonsElement[1];
+const FILTER_COMMENTS_BUTTON = filtersButtonsElement[2];
+const RANDOM_PICTURE_LENGTH = 10;
+const FILTER_DEFAULT = 1;
+const FILTER_RANDOM = 2;
+const FILTER_COMMENTS = 3;
+const DEBOUNCE_INTERVAL = 500;
 
-  const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
-  const FILTER_DEFAULT_BUTTON = filtersButtonsElement[0];
-  const FILTER_RANDOM_BUTTON = filtersButtonsElement[1];
-  const FILTER_COMMENTS_BUTTON = filtersButtonsElement[2];
-  const RANDOM_PICTURE_LENGTH = 10;
-  const FILTER_DEFAULT = 1;
-  const FILTER_RANDOM = 2;
-  const FILTER_COMMENTS = 3;
-  const DEBOUNCE_INTERVAL = 500;
-
-  window.const = {
-    NUMBER_OF_PHOTOS,
-    FILTER_CHROMIUM_SEPIA_MARVIN_VALUE,
-    FILTER_PHOBOS_VALUE,
-    FILTER_HEAT_VALUE,
-    MIN_ZOOM_VALUE,
-    MAX_ZOOM_VALUE,
-    ZOOM_VALUE_STEP,
-    STANDART_SLIDER_POSITION,
-    STANDART_SCALE_IMG,
-    FILTER_LETTERS,
-    FILTER_EFFECTS,
-    FILTER_TAGS,
-    MAX_TAGS,
-    MAX_VALUE_SIZE,
-    MIN_VALUE_SIZE,
-    MAX_PIN_VALUE,
-    MIN_PIN_VALUE,
-    COMMENTS_PER_PAGE,
-    FILTER_DEFAULT_BUTTON,
-    FILTER_RANDOM_BUTTON,
-    FILTER_COMMENTS_BUTTON,
-    RANDOM_PICTURE_LENGTH,
-    FILTER_DEFAULT,
-    FILTER_RANDOM,
-    FILTER_COMMENTS,
-    DEBOUNCE_INTERVAL
-  };
+window.const = {
+  NUMBER_OF_PHOTOS,
+  FILTER_CHROMIUM_SEPIA_MARVIN_VALUE,
+  FILTER_PHOBOS_VALUE,
+  FILTER_HEAT_VALUE,
+  MIN_ZOOM_VALUE,
+  MAX_ZOOM_VALUE,
+  ZOOM_VALUE_STEP,
+  STANDART_SLIDER_POSITION,
+  STANDART_SCALE_IMG,
+  FILTER_LETTERS,
+  FILTER_EFFECTS,
+  FILTER_TAGS,
+  MAX_TAGS,
+  MAX_VALUE_SIZE,
+  MIN_VALUE_SIZE,
+  MAX_PIN_VALUE,
+  MIN_PIN_VALUE,
+  COMMENTS_PER_PAGE,
+  FILTER_DEFAULT_BUTTON,
+  FILTER_RANDOM_BUTTON,
+  FILTER_COMMENTS_BUTTON,
+  RANDOM_PICTURE_LENGTH,
+  FILTER_DEFAULT,
+  FILTER_RANDOM,
+  FILTER_COMMENTS,
+  DEBOUNCE_INTERVAL
+};
 
 })();
 
@@ -105,54 +104,54 @@
 
 
 
-  const bodyElement = document.querySelector(`body`);
-  const picturesListElement = document.querySelector(`.pictures`);
-  const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
+const bodyElement = document.querySelector(`body`);
+const picturesListElement = document.querySelector(`.pictures`);
+const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
 
-  function getRandomInt(min, max) {
-    return Math.round(Math.random() * (max - min)) + min;
-  }
+function getRandomInt(min, max) {
+  return Math.round(Math.random() * (max - min)) + min;
+}
 
-  function getRandomElementFromArray(arr) {
-    return arr[getRandomInt(1, arr.length)];
-  }
+function getRandomElementFromArray(arr) {
+  return arr[getRandomInt(1, arr.length)];
+}
 
-  function resetGallery() {
-    while (picturesListElement.children.length > 2) {
-      picturesListElement.removeChild(picturesListElement.lastChild);
-    }
+function resetGallery() {
+  while (picturesListElement.children.length > 2) {
+    picturesListElement.removeChild(picturesListElement.lastChild);
   }
+}
 
-  function activeButton(button) {
-    Array.from(filtersButtonsElement).forEach(function (element) {
-      element.classList.remove(`img-filters__button--active`);
-    });
-    button.classList.add(`img-filters__button--active`);
-  }
+function activeButton(button) {
+  Array.from(filtersButtonsElement).forEach(function (element) {
+    element.classList.remove(`img-filters__button--active`);
+  });
+  button.classList.add(`img-filters__button--active`);
+}
 
-  function getRandomPicture(pictureObjects) {
-    let randomPictureObjects = [];
-    let pictureObjectsCopy = pictureObjects.slice();
-    for (let i = 0; i < window.const.RANDOM_PICTURE_LENGTH; i++) {
-      let randomIndex = window.util.getRandomInt(0, pictureObjectsCopy.length - 1);
-      randomPictureObjects.push(pictureObjectsCopy[randomIndex]);
-      pictureObjectsCopy.splice(randomIndex, 1);
-    }
-    return randomPictureObjects;
+function getRandomPicture(pictureObjects) {
+  let randomPictureObjects = [];
+  let pictureObjectsCopy = pictureObjects.slice();
+  for (let i = 0; i < window.const.RANDOM_PICTURE_LENGTH; i++) {
+    let randomIndex = window.util.getRandomInt(0, pictureObjectsCopy.length - 1);
+    randomPictureObjects.push(pictureObjectsCopy[randomIndex]);
+    pictureObjectsCopy.splice(randomIndex, 1);
   }
-  function sortByCommentsPicture(pictureObjects) {
-    return pictureObjects.slice().sort((left, right) => right.comments.length - left.comments.length);
-  }
+  return randomPictureObjects;
+}
+function sortByCommentsPicture(pictureObjects) {
+  return pictureObjects.slice().sort((left, right) => right.comments.length - left.comments.length);
+}
 
-  window.util = {
-    bodyElement,
-    getRandomInt,
-    getRandomElementFromArray,
-    resetGallery,
-    activeButton,
-    getRandomPicture,
-    sortByCommentsPicture
-  };
+window.util = {
+  bodyElement,
+  getRandomInt,
+  getRandomElementFromArray,
+  resetGallery,
+  activeButton,
+  getRandomPicture,
+  sortByCommentsPicture
+};
 
 })();
 
@@ -165,53 +164,53 @@
 
 
 
-  const TIMEOUT_IN_MS = 10000;
-  const StatusCode = {
-    OK: 200
-  };
+const TIMEOUT_IN_MS = 10000;
+const StatusCode = {
+  OK: 200
+};
 
-  const handleRequest = (onSuccess, onError, xhr) => {
-    xhr.responseType = `json`;
+const handleRequest = (onSuccess, onError, xhr) => {
+  xhr.responseType = `json`;
 
-    xhr.addEventListener(`load`, function () {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-      } else {
-        onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
-      }
-    });
-    xhr.addEventListener(`error`, function () {
-      onError(`Произошла ошибка соединения`);
-    });
-    xhr.addEventListener(`timeout`, function () {
-      onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
-    });
+  xhr.addEventListener(`load`, function () {
+    if (xhr.status === StatusCode.OK) {
+      onSuccess(xhr.response);
+    } else {
+      onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
+    }
+  });
+  xhr.addEventListener(`error`, function () {
+    onError(`Произошла ошибка соединения`);
+  });
+  xhr.addEventListener(`timeout`, function () {
+    onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
+  });
 
-    xhr.timeout = TIMEOUT_IN_MS;
-  };
+  xhr.timeout = TIMEOUT_IN_MS;
+};
 
-  const loadPhotos = (successHandler, errorHandler) => {
-    const URL = `https://21.javascript.pages.academy/kekstagram/data`;
-    const xhr = new XMLHttpRequest();
-    handleRequest(successHandler, errorHandler, xhr);
+const loadPhotos = (successHandler, errorHandler) => {
+  const URL = `https://21.javascript.pages.academy/kekstagram/data`;
+  const xhr = new XMLHttpRequest();
+  handleRequest(successHandler, errorHandler, xhr);
 
-    xhr.open(`GET`, URL);
-    xhr.send();
-  };
+  xhr.open(`GET`, URL);
+  xhr.send();
+};
 
-  const uploadPhoto = (data, successHandler, errorHandler) => {
-    const URL = `https://21.javascript.pages.academy/kekstagram`;
-    const xhr = new XMLHttpRequest();
-    handleRequest(successHandler, errorHandler, xhr);
+const uploadPhoto = (data, successHandler, errorHandler) => {
+  const URL = `https://21.javascript.pages.academy/kekstagram`;
+  const xhr = new XMLHttpRequest();
+  handleRequest(successHandler, errorHandler, xhr);
 
-    xhr.open(`POST`, URL);
-    xhr.send(data);
-  };
+  xhr.open(`POST`, URL);
+  xhr.send(data);
+};
 
-  window.backend = {
-    loadPhotos,
-    uploadPhoto
-  };
+window.backend = {
+  loadPhotos,
+  uploadPhoto
+};
 
 })();
 
