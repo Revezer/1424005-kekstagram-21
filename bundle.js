@@ -687,12 +687,9 @@ fileChooser.addEventListener(`change`, function () {
 
     reader.addEventListener(`load`, function () {
       photoPreviewElement.src = reader.result;
-      console.log(reader.result);
-      console.log(effectPreviewElement);
       effectPreviewElement.forEach(function (element) {
         element.style = `background-image: url("` + reader.result + `")`;
       });
-      effectPreviewElement.style = `background-image: url("` + reader.result + `")`;
     });
 
     reader.readAsDataURL(file);
