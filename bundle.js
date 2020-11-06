@@ -667,6 +667,38 @@ commentLoaderElement.addEventListener(`click`, function () {
   showingCommentsElement.textContent = commentsElement.children.length;
 });
 
+const fileChooser = document.querySelector(`#upload-file`);
+const photoPreviewElement = document.querySelector(`.img-upload__preview img`);
+const effectPreviewElement = document.querySelectorAll(`.effects__preview`);
+
+const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
+
+
+fileChooser.addEventListener(`change`, function () {
+  const file = fileChooser.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some(function (it) {
+    return fileName.endsWith(it);
+  });
+
+  if (matches) {
+    const reader = new FileReader();
+
+    reader.addEventListener(`load`, function () {
+      photoPreviewElement.src = reader.result;
+      console.log(reader.result);
+      console.log(effectPreviewElement);
+      effectPreviewElement.forEach(function (element) {
+        element.style = `background-image: url("` + reader.result + `")`;
+      });
+      effectPreviewElement.style = `background-image: url("` + reader.result + `")`;
+    });
+
+    reader.readAsDataURL(file);
+  }
+});
+
 })();
 
 /******/ })()
