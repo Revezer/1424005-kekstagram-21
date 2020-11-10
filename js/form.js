@@ -144,6 +144,17 @@ hasttagsElement.addEventListener(`input`, function () {
   hasttagsElement.reportValidity();
 });
 
+textDescriptionElement.addEventListener(`input`, function () {
+  let valueLength = textDescriptionElement.value.length;
+
+  if (valueLength > window.const.MAX_COMMENT_LENGTH) {
+    textDescriptionElement.setCustomValidity(`Удалите лишние ` + (valueLength - window.const.MAX_COMMENT_LENGTH) + ` симв.`);
+  } else {
+    textDescriptionElement.setCustomValidity(``);
+  }
+
+  textDescriptionElement.reportValidity();
+});
 
 const formElement = document.querySelector(`.img-upload__form`);
 

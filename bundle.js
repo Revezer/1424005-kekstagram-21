@@ -47,6 +47,7 @@ const FILTER_EFFECTS = {
 
 const FILTER_TAGS = /^#[\wА-Яа-я]{1,19}$/;
 const MAX_TAGS = 6;
+const MAX_COMMENT_LENGTH = 140;
 
 const MAX_PIN_VALUE = 450;
 const MIN_PIN_VALUE = 0;
@@ -76,6 +77,7 @@ window.const = {
   FILTER_EFFECTS,
   FILTER_TAGS,
   MAX_TAGS,
+  MAX_COMMENT_LENGTH,
   MAX_PIN_VALUE,
   MIN_PIN_VALUE,
   COMMENTS_PER_PAGE,
@@ -360,6 +362,17 @@ hasttagsElement.addEventListener(`input`, function () {
   hasttagsElement.reportValidity();
 });
 
+textDescriptionElement.addEventListener(`input`, function () {
+  let valueLength = textDescriptionElement.value.length;
+
+  if (valueLength > window.const.MAX_COMMENT_LENGTH) {
+    textDescriptionElement.setCustomValidity(`Удалите лишние ` + (valueLength - window.const.MAX_COMMENT_LENGTH) + ` симв.`);
+  } else {
+    textDescriptionElement.setCustomValidity(``);
+  }
+
+  textDescriptionElement.reportValidity();
+});
 
 const formElement = document.querySelector(`.img-upload__form`);
 
