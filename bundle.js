@@ -608,7 +608,6 @@ window.setListener = function (photos) {
   });
 };
 
-
 const sliderPinElement = document.querySelector(`.effect-level__pin`);
 const filterValueElement = document.querySelector(`.img-upload__preview`);
 const sliderDepthElement = document.querySelector(`.effect-level__depth`);
