@@ -27,10 +27,10 @@ function activeButton(button) {
 }
 
 function getRandomPicture(pictureObjects) {
-  let randomPictureObjects = [];
-  let pictureObjectsCopy = pictureObjects.slice();
+  const randomPictureObjects = [];
+  const pictureObjectsCopy = pictureObjects.slice();
   for (let i = 0; i < window.const.RANDOM_PICTURE_LENGTH; i++) {
-    let randomIndex = window.util.getRandomInt(0, pictureObjectsCopy.length - 1);
+    const randomIndex = window.util.getRandomInt(0, pictureObjectsCopy.length - 1);
     randomPictureObjects.push(pictureObjectsCopy[randomIndex]);
     pictureObjectsCopy.splice(randomIndex, 1);
   }

@@ -1,5 +1,20 @@
 'use strict';
 
+const filtersButtonsElement = document.querySelectorAll(`.img-filters__button`);
+const FILTER_DEFAULT_BUTTON = filtersButtonsElement[0];
+const FILTER_RANDOM_BUTTON = filtersButtonsElement[1];
+const FILTER_COMMENTS_BUTTON = filtersButtonsElement[2];
+const fragment = document.createDocumentFragment();
+const imgFiltersElement = document.querySelector(`.img-filters`);
+let defaultList = [];
+
+function defaultLoadPhotos() {
+  window.backend.loadPhotos(function (photos) {
+    defaultList = photos;
+    init(window.const.FILTER_DEFAULT);
+    imgFiltersElement.classList.remove(`hidden`);
+  }, function () {});
+}
 
 function init(comparison) {
   const picturesСontainerElement = document.querySelector(`.pictures`);
@@ -15,40 +30,31 @@ function init(comparison) {
   };
   switch (comparison) {
     case window.const.FILTER_DEFAULT:
-      window.backend.loadPhotos(function (photos) {
-        const fragment = document.createDocumentFragment();
-        photos.forEach((photo) => {
-          fragment.appendChild(getPictureElement(photo));
-        });
-        picturesСontainerElement.appendChild(fragment);
-        window.setListener(photos);
-      }, function () {});
+      defaultList.forEach((photo) => {
+        fragment.appendChild(getPictureElement(photo));
+      });
+      picturesСontainerElement.appendChild(fragment);
+      window.setListener(defaultList);
       break;
     case window.const.FILTER_RANDOM:
-      window.backend.loadPhotos(function (photos) {
-        const randomList = window.util.getRandomPicture(photos);
-        const fragment = document.createDocumentFragment();
-        randomList.forEach((photo) => {
-          fragment.appendChild(getPictureElement(photo));
-        });
-        picturesСontainerElement.appendChild(fragment);
-        window.setListener(randomList);
-      }, function () {});
+      const randomList = window.util.getRandomPicture(defaultList);
+      randomList.forEach((photo) => {
+        fragment.appendChild(getPictureElement(photo));
+      });
+      picturesСontainerElement.appendChild(fragment);
+      window.setListener(randomList);
       break;
     case window.const.FILTER_COMMENTS:
-      window.backend.loadPhotos(function (photos) {
-        const commentsList = window.util.sortByCommentsPicture(photos);
-        const fragment = document.createDocumentFragment();
-        commentsList.forEach((photo) => {
-          fragment.appendChild(getPictureElement(photo));
-        });
-        picturesСontainerElement.appendChild(fragment);
-        window.setListener(commentsList);
-      }, function () {});
+      const commentsList = window.util.sortByCommentsPicture(defaultList);
+      commentsList.forEach((photo) => {
+        fragment.appendChild(getPictureElement(photo));
+      });
+      picturesСontainerElement.appendChild(fragment);
+      window.setListener(commentsList);
   }
 }
 
-init(window.const.FILTER_DEFAULT);
+defaultLoadPhotos();
 
 const filterDefaultElement = document.querySelector(`#filter-default`);
 const buttonRandomElement = document.querySelector(`#filter-random`);
@@ -66,16 +72,16 @@ function debounce(filter) {
 }
 
 filterDefaultElement.addEventListener(`click`, function () {
-  window.util.activeButton(window.const.FILTER_DEFAULT_BUTTON);
+  window.util.activeButton(FILTER_DEFAULT_BUTTON);
   debounce(window.const.FILTER_DEFAULT);
 });
 
 buttonRandomElement.addEventListener(`click`, function () {
-  window.util.activeButton(window.const.FILTER_RANDOM_BUTTON);
+  window.util.activeButton(FILTER_RANDOM_BUTTON);
   debounce(window.const.FILTER_RANDOM);
 });
 
 filterCommentsElement.addEventListener(`click`, function () {
-  window.util.activeButton(window.const.FILTER_COMMENTS_BUTTON);
+  window.util.activeButton(FILTER_COMMENTS_BUTTON);
   debounce(window.const.FILTER_COMMENTS);
 });

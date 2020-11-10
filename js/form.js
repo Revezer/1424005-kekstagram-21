@@ -3,6 +3,10 @@
 const modalOnloadElement = document.querySelector(`#upload-file`);
 const modalOpenElement = document.querySelector(`.img-upload__overlay`);
 const modalCloseElement = document.querySelector(`#upload-cancel`);
+const photoPreviewElement = document.querySelector(`.img-upload__preview img`);
+const effectPreviewElement = document.querySelectorAll(`.effects__preview`);
+const hasttagsElement = document.querySelector(`.text__hashtags`);
+const textDescriptionElement = document.querySelector(`.text__description`);
 
 function resetForm() {
   modalOpenElement.classList.add(`hidden`);
@@ -12,6 +16,10 @@ function resetForm() {
   hasttagsElement.value = ``;
   textDescriptionElement.value = ``;
   window.util.bodyElement.classList.remove(`modal-open`);
+  photoPreviewElement.src = `img/upload-default-image.jpg`;
+  effectPreviewElement.forEach(function (element) {
+    element.style = ``;
+  });
 }
 
 modalOnloadElement.addEventListener(`click`, function () {
@@ -19,6 +27,7 @@ modalOnloadElement.addEventListener(`click`, function () {
   window.util.bodyElement.classList.add(`modal-open`);
   switchingValueElement.value = window.const.MAX_ZOOM_VALUE + `%`;
   imgCsaleElement.style.transform = `scale(` + window.const.STANDART_SCALE_IMG + `)`;
+  sliderElement.style = `display: none`;
 });
 
 modalCloseElement.addEventListener(`click`, function () {
@@ -27,7 +36,14 @@ modalCloseElement.addEventListener(`click`, function () {
 
 document.addEventListener(`keydown`, function (evt) {
   if (evt.key === `Escape`) {
+    if (evt.target.className === `text__hashtags`) {
+      return;
+    }
+    if (evt.target.className === `text__description`) {
+      return;
+    }
     resetForm();
+    window.resetPreview();
   }
 });
 
@@ -80,9 +96,9 @@ const effectsElements = {
 };
 
 const filter = {
-  chromium: `filter: grayscale(${window.const.FILTER_CHROMIUM_SEPIA_MARVIN_VALUE})`,
-  sepia: `filter: sepia(${window.const.FILTER_CHROMIUM_SEPIA_MARVIN_VALUE})`,
-  marvin: `filter: invert(${window.const.FILTER_CHROMIUM_SEPIA_MARVIN_VALUE})`,
+  chromium: `filter: grayscale(${window.const.FILTER_CHROMIUM_SEPIA_VALUE})`,
+  sepia: `filter: sepia(${window.const.FILTER_CHROMIUM_SEPIA_VALUE})`,
+  marvin: `filter: invert(${window.const.FILTER_MARVIN_VALUE})`,
   phobos: `filter: blur(${window.const.FILTER_PHOBOS_VALUE})`,
   heat: `filter: brightness(${window.const.FILTER_HEAT_VALUE})`
 };
@@ -110,9 +126,6 @@ filterInit(effectsElements.marvin, filter.marvin);
 filterInit(effectsElements.phobos, filter.phobos);
 filterInit(effectsElements.heat, filter.heat);
 
-
-const hasttagsElement = document.querySelector(`.text__hashtags`);
-const textDescriptionElement = document.querySelector(`.text__description`);
 
 hasttagsElement.addEventListener(`input`, function () {
   let arrayTags = hasttagsElement.value;

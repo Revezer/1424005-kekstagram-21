@@ -24,7 +24,7 @@ function showComments(photo, commentCount) {
 
 
 const bigPictureElement = document.querySelector(`.big-picture`);
-const bigImg = bigPictureElement.querySelector(`.big-picture__img img`);
+const bigImgElement = bigPictureElement.querySelector(`.big-picture__img img`);
 const likesCountElement = bigPictureElement.querySelector(`.likes-count`);
 const commentsCountElement = bigPictureElement.querySelector(`.comments-count`);
 const descriptionElement = bigPictureElement.querySelector(`.social__caption`);
@@ -32,7 +32,7 @@ const descriptionElement = bigPictureElement.querySelector(`.social__caption`);
 function bigPictureInit(photo) {
   bigPictureElement.classList.remove(`hidden`);
 
-  bigImg.setAttribute(`src`, photo.url);
+  bigImgElement.setAttribute(`src`, photo.url);
 
   likesCountElement.textContent = photo.likes;
 
@@ -51,23 +51,18 @@ function bigPictureInit(photo) {
 const closePreviewElement = document.querySelector(`.big-picture__cancel`);
 const deleteCommentsElement = document.querySelector(`.social__comments`);
 
-closePreviewElement.addEventListener(`click`, function () {
+window.resetPreview = function () {
   bigPictureElement.classList.add(`hidden`);
   window.util.bodyElement.classList.remove(`modal-open`);
   deleteCommentsElement.innerText = ``;
   displayCount = window.const.COMMENTS_PER_PAGE;
   commentLoaderElement.classList.remove(`hidden`);
+};
+
+closePreviewElement.addEventListener(`click`, function () {
+  window.resetPreview();
 });
 
-document.addEventListener(`keydown`, function (evt) {
-  if (evt.key === `Escape`) {
-    bigPictureElement.classList.add(`hidden`);
-    window.util.bodyElement.classList.remove(`modal-open`);
-    deleteCommentsElement.innerText = ``;
-    displayCount = window.const.COMMENTS_PER_PAGE;
-    commentLoaderElement.classList.remove(`hidden`);
-  }
-});
 window.setListener = function (photos) {
   const openPreviewElements = document.querySelectorAll(`.picture`);
 
@@ -85,7 +80,7 @@ const filterValueElement = document.querySelector(`.img-upload__preview`);
 const sliderDepthElement = document.querySelector(`.effect-level__depth`);
 const effectLevelElement = document.querySelector(`.effect-level__line`);
 
-function filterСhange(name, filters, value, sign) {
+function filterChange(name, filters, value, sign) {
   filterValueElement.style.filter = name + (filters.max - filters.min) * value + sign;
 }
 
@@ -96,7 +91,7 @@ sliderPinElement.addEventListener(`mousedown`, function (evt) {
     x: evt.clientX
   };
 
-  const onMouseMove = function (moveEvt) {
+  function onDocumentMouseMove(moveEvt) {
     moveEvt.preventDefault();
 
     let shift = {
@@ -107,52 +102,57 @@ sliderPinElement.addEventListener(`mousedown`, function (evt) {
       x: moveEvt.clientX
     };
 
-    sliderPinElement.style.left = (sliderPinElement.offsetLeft - shift.x) + `px`;
-    sliderDepthElement.style.width = sliderPinElement.style.left;
-    if (startCoords.x > window.const.MAX_VALUE_SIZE) {
-      sliderPinElement.style.left = window.const.MAX_PIN_VALUE + `px`;
+    let numLevel = (sliderPinElement.offsetLeft - shift.x);
+
+    if (numLevel > window.const.MAX_PIN_VALUE) {
+      numLevel = window.const.MAX_PIN_VALUE;
     }
 
-    if (startCoords.x < window.const.MIN_VALUE_SIZE) {
-      sliderPinElement.style.left = window.const.MIN_PIN_VALUE + `px`;
+    if (numLevel < window.const.MIN_PIN_VALUE) {
+      numLevel = window.const.MIN_PIN_VALUE;
     }
+
+    sliderPinElement.style.left = numLevel + `px`;
+    sliderDepthElement.style.width = sliderPinElement.style.left;
+
 
     const value = sliderPinElement.offsetLeft / effectLevelElement.clientWidth;
 
     switch (filterValueElement.style.filter.replace(window.const.FILTER_LETTERS, ``)) {
       case `grayscale`:
-        filterСhange(`grayscale(`, window.const.FILTER_EFFECTS.chromium, value, `)`);
+        filterChange(`grayscale(`, window.const.FILTER_EFFECTS.chromium, value, `)`);
         break;
       case `sepia`:
-        filterСhange(`sepia(`, window.const.FILTER_EFFECTS.sepia, value, `)`);
+        filterChange(`sepia(`, window.const.FILTER_EFFECTS.sepia, value, `)`);
         break;
       case `invert`:
-        filterСhange(`invert(`, window.const.FILTER_EFFECTS.marvin, value, `%)`);
+        filterChange(`invert(`, window.const.FILTER_EFFECTS.marvin, value, `%)`);
         break;
       case `blur`:
-        filterСhange(`blur(`, window.const.FILTER_EFFECTS.phobos, value, `px)`);
+        filterChange(`blur(`, window.const.FILTER_EFFECTS.phobos, value, `px)`);
         break;
       case `brightness`:
-        filterСhange(`brightness(`, window.const.FILTER_EFFECTS.heat, value, `)`);
+        filterChange(`brightness(`, window.const.FILTER_EFFECTS.heat, value, `)`);
     }
-  };
+  }
 
 
-  const onMouseUp = function (upEvt) {
+  function onDocumentMouseUp(upEvt) {
     upEvt.preventDefault();
 
-    document.removeEventListener(`mousemove`, onMouseMove);
-    document.removeEventListener(`mouseup`, onMouseUp);
-  };
-  document.addEventListener(`mousemove`, onMouseMove);
-  document.addEventListener(`mouseup`, onMouseUp);
+    document.removeEventListener(`mousemove`, onDocumentMouseMove);
+    document.removeEventListener(`mouseup`, onDocumentMouseUp);
+  }
+  document.addEventListener(`mousemove`, onDocumentMouseMove);
+  document.addEventListener(`mouseup`, onDocumentMouseUp);
 });
 
 
 commentLoaderElement.addEventListener(`click`, function () {
   displayCount += window.const.COMMENTS_PER_PAGE;
-  if (displayCount > photosComments.lenght) {
-    displayCount = photosComments.lenght;
+  if (displayCount >= commentsCountElement.textContent) {
+    displayCount = commentsCountElement.textContent;
+    commentLoaderElement.classList.add(`hidden`);
   }
   deleteCommentsElement.innerText = ``;
   showComments(photosComments, displayCount);
@@ -163,14 +163,12 @@ const fileChooser = document.querySelector(`#upload-file`);
 const photoPreviewElement = document.querySelector(`.img-upload__preview img`);
 const effectPreviewElement = document.querySelectorAll(`.effects__preview`);
 
-const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
-
 
 fileChooser.addEventListener(`change`, function () {
   const file = fileChooser.files[0];
   const fileName = file.name.toLowerCase();
 
-  const matches = FILE_TYPES.some(function (it) {
+  const matches = window.const.FILE_TYPES.some(function (it) {
     return fileName.endsWith(it);
   });
 
