@@ -48,8 +48,6 @@ const FILTER_EFFECTS = {
 const FILTER_TAGS = /^#[\wА-Яа-я]{1,19}$/;
 const MAX_TAGS = 6;
 
-//const MAX_VALUE_SIZE = 1180;
-//const MIN_VALUE_SIZE = 730;
 const MAX_PIN_VALUE = 450;
 const MIN_PIN_VALUE = 0;
 
@@ -78,8 +76,6 @@ window.const = {
   FILTER_EFFECTS,
   FILTER_TAGS,
   MAX_TAGS,
-  //MAX_VALUE_SIZE,
-  //MIN_VALUE_SIZE,
   MAX_PIN_VALUE,
   MIN_PIN_VALUE,
   COMMENTS_PER_PAGE,
