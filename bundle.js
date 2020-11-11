@@ -58,7 +58,7 @@ const RANDOM_PICTURE_LENGTH = 10;
 const FILTER_DEFAULT = 1;
 const FILTER_RANDOM = 2;
 const FILTER_COMMENTS = 3;
-const DEBOUNCE_INTERVAL = 500;
+const DEBOUNCE_INTERVAL = 5000;
 
 const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 
@@ -159,7 +159,7 @@ window.util = {
 /*! runtime requirements:  */
 
 
-
+const URL_ADDRESS = `https://21.javascript.pages.academy/kekstagram`;
 const TIMEOUT_IN_MS = 10000;
 const StatusCode = {
   OK: 200
@@ -185,21 +185,20 @@ const handleRequest = (onSuccess, onError, xhr) => {
   xhr.timeout = TIMEOUT_IN_MS;
 };
 
+
 const loadPhotos = (successHandler, errorHandler) => {
-  const URL = `https://21.javascript.pages.academy/kekstagram/data`;
   const xhr = new XMLHttpRequest();
   handleRequest(successHandler, errorHandler, xhr);
 
-  xhr.open(`GET`, URL);
+  xhr.open(`GET`, `${URL_ADDRESS}/data`);
   xhr.send();
 };
 
 const uploadPhoto = (data, successHandler, errorHandler) => {
-  const URL = `https://21.javascript.pages.academy/kekstagram`;
   const xhr = new XMLHttpRequest();
   handleRequest(successHandler, errorHandler, xhr);
 
-  xhr.open(`POST`, URL);
+  xhr.open(`POST`, URL_ADDRESS);
   xhr.send(data);
 };
 
@@ -218,7 +217,6 @@ window.backend = {
 /*! runtime requirements:  */
 
 
-const modalOnloadElement = document.querySelector(`#upload-file`);
 const modalOpenElement = document.querySelector(`.img-upload__overlay`);
 const modalCloseElement = document.querySelector(`#upload-cancel`);
 const photoPreviewElement = document.querySelector(`.img-upload__preview img`);
@@ -240,8 +238,6 @@ function resetForm() {
   });
 }
 
-modalOnloadElement.addEventListener(`click`, function () {
-});
 
 modalCloseElement.addEventListener(`click`, function () {
   resetForm();
@@ -484,6 +480,8 @@ const FILTER_RANDOM_BUTTON = filtersButtonsElement[1];
 const FILTER_COMMENTS_BUTTON = filtersButtonsElement[2];
 const fragment = document.createDocumentFragment();
 const imgFiltersElement = document.querySelector(`.img-filters`);
+const picturesСontainerElement = document.querySelector(`.pictures`);
+const pictureTemplateElement = document.querySelector(`#picture`).content.querySelector(`.picture`);
 let defaultList = [];
 
 function defaultLoadPhotos() {
@@ -494,18 +492,17 @@ function defaultLoadPhotos() {
   }, function () {});
 }
 
+const getPictureElement = function (photo) {
+  const pictureElement = pictureTemplateElement.cloneNode(true);
+  const pictureImgElement = pictureElement.querySelector(`.picture__img`);
+  const image = photo.url;
+  pictureImgElement.setAttribute(`src`, image);
+  pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
+  pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
+  return pictureElement;
+};
+
 function init(comparison) {
-  const picturesСontainerElement = document.querySelector(`.pictures`);
-  const pictureTemplateElement = document.querySelector(`#picture`).content.querySelector(`.picture`);
-  const getPictureElement = function (photo) {
-    const pictureElement = pictureTemplateElement.cloneNode(true);
-    const pictureImgElement = pictureElement.querySelector(`.picture__img`);
-    const image = photo.url;
-    pictureImgElement.setAttribute(`src`, image);
-    pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
-    pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
-    return pictureElement;
-  };
   switch (comparison) {
     case window.const.FILTER_DEFAULT:
       defaultList.forEach((photo) => {

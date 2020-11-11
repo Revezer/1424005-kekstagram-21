@@ -1,6 +1,6 @@
 'use strict';
 
-
+const URL_ADDRESS = `https://21.javascript.pages.academy/kekstagram`;
 const TIMEOUT_IN_MS = 10000;
 const StatusCode = {
   OK: 200
@@ -26,21 +26,20 @@ const handleRequest = (onSuccess, onError, xhr) => {
   xhr.timeout = TIMEOUT_IN_MS;
 };
 
+
 const loadPhotos = (successHandler, errorHandler) => {
-  const URL = `https://21.javascript.pages.academy/kekstagram/data`;
   const xhr = new XMLHttpRequest();
   handleRequest(successHandler, errorHandler, xhr);
 
-  xhr.open(`GET`, URL);
+  xhr.open(`GET`, `${URL_ADDRESS}/data`);
   xhr.send();
 };
 
 const uploadPhoto = (data, successHandler, errorHandler) => {
-  const URL = `https://21.javascript.pages.academy/kekstagram`;
   const xhr = new XMLHttpRequest();
   handleRequest(successHandler, errorHandler, xhr);
 
-  xhr.open(`POST`, URL);
+  xhr.open(`POST`, URL_ADDRESS);
   xhr.send(data);
 };
 

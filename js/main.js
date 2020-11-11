@@ -6,6 +6,8 @@ const FILTER_RANDOM_BUTTON = filtersButtonsElement[1];
 const FILTER_COMMENTS_BUTTON = filtersButtonsElement[2];
 const fragment = document.createDocumentFragment();
 const imgFiltersElement = document.querySelector(`.img-filters`);
+const picturesСontainerElement = document.querySelector(`.pictures`);
+const pictureTemplateElement = document.querySelector(`#picture`).content.querySelector(`.picture`);
 let defaultList = [];
 
 function defaultLoadPhotos() {
@@ -16,18 +18,17 @@ function defaultLoadPhotos() {
   }, function () {});
 }
 
+const getPictureElement = function (photo) {
+  const pictureElement = pictureTemplateElement.cloneNode(true);
+  const pictureImgElement = pictureElement.querySelector(`.picture__img`);
+  const image = photo.url;
+  pictureImgElement.setAttribute(`src`, image);
+  pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
+  pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
+  return pictureElement;
+};
+
 function init(comparison) {
-  const picturesСontainerElement = document.querySelector(`.pictures`);
-  const pictureTemplateElement = document.querySelector(`#picture`).content.querySelector(`.picture`);
-  const getPictureElement = function (photo) {
-    const pictureElement = pictureTemplateElement.cloneNode(true);
-    const pictureImgElement = pictureElement.querySelector(`.picture__img`);
-    const image = photo.url;
-    pictureImgElement.setAttribute(`src`, image);
-    pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
-    pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
-    return pictureElement;
-  };
   switch (comparison) {
     case window.const.FILTER_DEFAULT:
       defaultList.forEach((photo) => {
